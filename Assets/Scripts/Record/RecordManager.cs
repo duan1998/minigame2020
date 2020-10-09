@@ -8,7 +8,8 @@ public class RecordManager : MonoBehaviour
     public string PersistentDataPath;
     private const string FileNamePrefix = "Record_";
 
-
+    private int currentRecordIdValue;
+    public int maxSaveRecordCount;
 
     private RecordManager() { }
     private static RecordManager instance;
@@ -18,38 +19,65 @@ public class RecordManager : MonoBehaviour
     }
 
 
-    private List<BehaviorRecord> recordList=new List<BehaviorRecord>();
-    private Dictionary<int, BehaviorRecord> recordDic = new Dictionary<int, BehaviorRecord>();
+    public List<BehaviorRecord> recordList=new List<BehaviorRecord>();
 
     private void Awake()
     {
         instance = this;
         PersistentDataPath = Application.dataPath + "Record";
+        if(!PlayerPrefs.HasKey("RecordId"))
+        {
+            PlayerPrefs.SetInt("RecordId", 1);
+            currentRecordIdValue = 1;
+        }
+        else
+        {
+            currentRecordIdValue= PlayerPrefs.GetInt("RecordId");
+        }
     }
 
 
-    private bool RemoveRecord(int id)
+    public void RemoveRecord(int index)
     {
-        if (!recordDic.ContainsKey(id)) 
-            return false;
+        if (recordList.Count <= index)
+            return;
+        recordList.RemoveAt(index);
+    }
 
-        recordList.Remove(recordDic[id]);
-        recordDic.Remove(id);
+    public bool SaveRecord(BehaviorRecord record)
+    {
+        if (maxSaveRecordCount <= 0) return false;
+        if (recordList.Count<maxSaveRecordCount)
+        {
+            recordList.Add(record);
+        }
+        else
+        {
+            recordList[maxSaveRecordCount - 1] = record;
+        }
         return true;
     }
-    
-    private bool AddRecord(int id)
+    public void PlayRecord(int index)
     {
-        if (recordDic.ContainsKey(id))
-            OverrideRecord(id);
 
     }
 
-
-    //覆盖掉原有的数据
-    private void OverrideRecord(int id)
+    public int GetNewId()
     {
-        //TODO 在固定的文件夹中
+        ++currentRecordIdValue;
+        PlayerPrefs.SetInt("RecordId", currentRecordIdValue);
+        return currentRecordIdValue;
     }
+
+    public bool IsFull()
+    {
+        if(recordList.Count>=maxSaveRecordCount)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
 
 }
