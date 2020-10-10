@@ -1673,6 +1673,30 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &990184569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11469404, guid: 7737647c22c1fc64a88d5cd030c352ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 588193696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &990184570 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11444856, guid: 7737647c22c1fc64a88d5cd030c352ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 588193696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &990184574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce,
@@ -3530,13 +3554,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bRecording: 0
   recordRemainingTimeBar: {fileID: 1044587862}
-  recordNameInputObj: {fileID: 0}
-  recordNameInputField: {fileID: 0}
-  recordNameSubmitBtn: {fileID: 0}
-  recordDuration: 10
+  recordNameInputObj: {fileID: 772039154}
+  recordNameInputField: {fileID: 244612771}
+  recordNameSubmitBtn: {fileID: 1516846801}
+  recordDuration: 5
   curRecordRemainingTime: 0
-  playerCtrl: {fileID: 0}
-  characterCtrl: {fileID: 0}
+  playerCtrl: {fileID: 990184570}
+  characterCtrl: {fileID: 990184569}
+  recordItemRoot: {fileID: 2038679774}
 --- !u!4 &1652988174
 Transform:
   m_ObjectHideFlags: 0
@@ -3659,6 +3684,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887891305}
   m_CullTransparentMesh: 0
+--- !u!1 &1892071901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1892071903}
+  - component: {fileID: 1892071902}
+  m_Layer: 0
+  m_Name: RecordManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1892071902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892071901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fc3d3594ea81c44bddef335d2fc70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PersistentDataPath: 
+  maxSaveRecordCount: 2
+  recordList: []
+--- !u!4 &1892071903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892071901}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 433.01993, y: 225.30199, z: -120.98281}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1942069116
 GameObject:
   m_ObjectHideFlags: 0

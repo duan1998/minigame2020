@@ -4,11 +4,12 @@ using UnityEngine;
 [Flags]public enum BehaviourType
 {
     None = 0,
-    Walk = 1,
-    Jump = 2,
-    Climb = 4,    //（持续性动作）
-    PickUp = 8,  //（持续性动作）
-    PickDown = 16,
+    Idle = 1,
+    Walk = 2,
+    Jump = 4,
+    Climb = 8,    //（持续性动作）
+    PickUp = 16,  //（持续性动作）
+    PickDown = 32,
 }
 
 [RequireComponent(typeof(ThirdPersonCharacter))]

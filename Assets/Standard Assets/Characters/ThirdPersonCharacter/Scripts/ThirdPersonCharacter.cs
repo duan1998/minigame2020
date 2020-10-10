@@ -45,15 +45,14 @@ public class ThirdPersonCharacter : MonoBehaviour
 
     public void Move(Vector3 move, bool crouch, bool jump)
     {
-        if(behaviourType==BehaviourType.Jump&&m_IsGrounded)
-        {
-            behaviourType = BehaviourType.Walk;
-        }
 
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
         // direction.
         if (move.magnitude > 1f) move.Normalize();
+        
+
+
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
         move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -77,6 +76,36 @@ public class ThirdPersonCharacter : MonoBehaviour
 
         // send input and other state parameters to the animator
         UpdateAnimator(move);
+    }
+
+    private void Update()
+    {
+        switch (behaviourType)
+        {
+            case BehaviourType.None:
+                if(m_IsGrounded)
+                    behaviourType = BehaviourType.Idle;
+                break;
+            case BehaviourType.Idle:
+                if(!(behaviourType==BehaviourType.Climb))
+                {
+                    //如果不是爬行
+                    if (m_IsGrounded && m_Rigidbody.velocity.magnitude > 0)
+                    {
+                        behaviourType
+                    }
+                }
+
+                
+
+                break;
+            case BehaviourType.Walk:
+                break;
+            case BehaviourType.Jump:
+                break;
+            
+        }
+
     }
 
 

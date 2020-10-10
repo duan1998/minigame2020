@@ -18,6 +18,7 @@ public class Game : MonoBehaviour
     public ThirdPersonCharacter characterCtrl;
     public Transform recordItemRoot;
 
+    private string[] keyBoards = {"F1","F2","F3"};
     private void Awake()
     {
         recordNameSubmitBtn.onClick.AddListener(OnSubmitBtnClick);
@@ -104,18 +105,26 @@ public class Game : MonoBehaviour
         curRecordRemainingTime = recordDuration;
         recordNameInputObj.SetActive(true);
         recordNameInputField.text = "";
-        ShowRecordRemainingTimeBar();
     }
     void OverRecord()
     {
         bRecording = false;
         HideRecordRemainingTimeBar();
-
         bool bSuccess=RecordManager.Instance.SaveRecord(tempBehaviourRecord);
         if(bSuccess)
         {
-            GameObject obj= GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/RecordItem"), recordItemRoot);
-            obj.GetComponentInChildren<Text>()
+            if (RecordManager.Instance.IsFull())
+            {
+                int idx = recordItemRoot.childCount - 1;
+                //替换Text内容
+                recordItemRoot.GetChild(idx).GetComponentInChildren<Text>().text = keyBoards[idx] + "   " + tempBehaviourRecord.name;
+            }
+            else
+            {
+                //生成一个新的
+                GameObject obj = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/RecordItem"), recordItemRoot);
+                obj.GetComponentInChildren<Text>().text = keyBoards[recordItemRoot.childCount - 1] + "   " + tempBehaviourRecord.name;
+            }
         }
     }
 
@@ -136,9 +145,10 @@ public class Game : MonoBehaviour
         }
         else
         {
-            bRecording = true;
             tempBehaviourRecord = new BehaviorRecord(RecordManager.Instance.GetNewId(), recordNameInputField.text);
             recordNameInputObj.SetActive(false);
+            ShowRecordRemainingTimeBar();
+            bRecording = true;
         }
     }
 
