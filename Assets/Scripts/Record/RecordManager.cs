@@ -11,6 +11,9 @@ public class RecordManager : MonoBehaviour
     private int currentRecordIdValue;
     public int maxSaveRecordCount;
 
+    public ThirdPersonUserControl playerCtrl;
+    public Transform ghostTrans;
+
     private RecordManager() { }
     private static RecordManager instance;
     public static RecordManager Instance
@@ -57,10 +60,36 @@ public class RecordManager : MonoBehaviour
         }
         return true;
     }
+    bool isPlaying = false;
+    int recordIndex = 0;
+    int currentPlayingRecord;
     public void PlayRecord(int index)
     {
-
+        if (recordList.Count <= index) return;
+        if (isPlaying) return;
+        isPlaying = true;
+        recordIndex = 0;
+        currentPlayingRecord = index;
+        ghostTrans.position = playerCtrl.transform.position;
     }
+
+    private void FixedUpdate()
+    {
+        if (isPlaying)
+        {
+            if (recordIndex < recordList[currentPlayingRecord].frameRecordList.Count)
+            {
+                ghostTrans.position += recordList[currentPlayingRecord].frameRecordList[recordIndex].deltaDisplacement;
+                recordIndex++;
+            }
+            else
+            {
+                isPlaying = false;
+            }
+        }
+        
+    }
+
 
     public int GetNewId()
     {

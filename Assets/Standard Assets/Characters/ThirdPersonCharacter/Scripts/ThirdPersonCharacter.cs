@@ -87,21 +87,37 @@ public class ThirdPersonCharacter : MonoBehaviour
                     behaviourType = BehaviourType.Idle;
                 break;
             case BehaviourType.Idle:
-                if(!(behaviourType==BehaviourType.Climb))
+                if (m_Rigidbody.velocity.magnitude > 0)
                 {
-                    //如果不是爬行
-                    if (m_IsGrounded && m_Rigidbody.velocity.magnitude > 0)
+                    if (m_IsGrounded)
                     {
-                        behaviourType
+                        behaviourType = BehaviourType.Walk;
                     }
+                    else
+                        behaviourType = BehaviourType.Jump;
                 }
-
-                
-
                 break;
             case BehaviourType.Walk:
+                if (m_Rigidbody.velocity.magnitude<=0)
+                {
+                    behaviourType = BehaviourType.Idle;
+                }
+                else
+                {
+                    if (!m_IsGrounded)
+                    {
+                        behaviourType = BehaviourType.Jump;
+                    }
+                }
                 break;
             case BehaviourType.Jump:
+                if(m_IsGrounded)
+                {
+                    if (m_Rigidbody.velocity.magnitude <= 0)
+                        behaviourType = BehaviourType.Idle;
+                    else
+                        behaviourType = BehaviourType.Walk;
+                }
                 break;
             
         }
