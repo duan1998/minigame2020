@@ -78,28 +78,6 @@ public class Game : MonoBehaviour
         
 
     }
-
-    private BehaviorRecord tempBehaviourRecord;
-    private void FixedUpdate()
-    {
-        if (bRecording)
-        {
-            //记录行为
-            tempBehaviourRecord.AddBehaviour(new Behaviour(playerCtrl.deltaDisplacement, characterCtrl.behaviourType));
-            curRecordRemainingTime -= Time.fixedDeltaTime;
-            if(curRecordRemainingTime<=0)
-            {
-                OverRecord();
-                
-            }
-            else
-            {
-                recordRemainingTimeBar.fillAmount = curRecordRemainingTime / recordDuration;
-
-            }
-        }
-    }
-
     void StartRecord()
     {
         curRecordRemainingTime = recordDuration;
@@ -152,6 +130,27 @@ public class Game : MonoBehaviour
         }
     }
 
+
+    private BehaviorRecord tempBehaviourRecord;
+    private void FixedUpdate()
+    {
+        if (bRecording)
+        {
+            //记录行为
+            tempBehaviourRecord.AddBehaviour(new Behaviour(playerCtrl.deltaDisplacement, characterCtrl.behaviourType));
+            curRecordRemainingTime -= Time.fixedDeltaTime;
+            if (curRecordRemainingTime <= 0)
+            {
+                OverRecord();
+
+            }
+            else
+            {
+                recordRemainingTimeBar.fillAmount = curRecordRemainingTime / recordDuration;
+
+            }
+        }
+    }
 
 
 }

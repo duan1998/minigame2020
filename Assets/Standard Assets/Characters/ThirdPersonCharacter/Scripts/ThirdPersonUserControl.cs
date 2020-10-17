@@ -22,7 +22,11 @@ public class ThirdPersonUserControl : MonoBehaviour
     private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
     public Vector3 lastFramePosition; //上一帧的位置
     public Vector3 deltaDisplacement;//位移差
+    public BoxCollider climbTrigger;
+    public LayerMask defaultMask;
+      
 
+    private static Collider[] colliders;
     private void Start()
     {
         lastFramePosition = transform.position;
@@ -37,6 +41,7 @@ public class ThirdPersonUserControl : MonoBehaviour
                 "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
             // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
         }
+        colliders = new Collider[20];
 
         // get the third person character ( this should never be null due to require component )
         m_Character = GetComponent<ThirdPersonCharacter>();
@@ -58,30 +63,55 @@ public class ThirdPersonUserControl : MonoBehaviour
         // read inputs
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        bool crouch = Input.GetKey(KeyCode.C);
 
-        // calculate move direction to pass to character
-        if (m_Cam != null)
+        bool climb = false;
+   
+        Physics.OverlapBoxNonAlloc(climbTrigger.transform.position+climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
+        if (colliders[0] != null)
         {
-            // calculate camera relative direction to move:
-            m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-            m_Move = v * m_CamForward + h * m_Cam.right;
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i]!=null&&colliders[i].CompareTag("Ladder"))
+                {
+                    climb = true;
+                    break;
+                }
+            }
+        }
+        
+        if (climb && v<0 &&m_Character.IsGround)
+        {
+            climb = false;
+        }
+        if (climb)
+        {
+            m_Move = v * Vector3.up + h * Vector3.right;
         }
         else
         {
-            // we use world-relative directions in the case of no main camera
-            m_Move = v * Vector3.forward + h * Vector3.right;
+            // calculate move direction to pass to character
+            if (m_Cam != null)
+            {
+                // calculate camera relative direction to move:
+                m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
+                m_Move = v * m_CamForward + h * m_Cam.right;
+            }
+            else
+            {
+                // we use world-relative directions in the case of no main camera
+                m_Move = v * Vector3.forward + h * Vector3.right;
+            }
         }
-        // pass all parameters to the character control script
-        m_Character.Move(m_Move, crouch, m_Jump);
-        m_Jump = false;
 
+        // pass all parameters to the character control script
+        m_Character.Move(m_Move, climb, m_Jump);
+        m_Jump = false;
    
         deltaDisplacement = transform.position - lastFramePosition;
         lastFramePosition = transform.position;
     }
 
-
+    
 
 }
 
