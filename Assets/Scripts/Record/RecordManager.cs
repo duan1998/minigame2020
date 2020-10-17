@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class RecordManager : MonoBehaviour
 {
-    //record的固定path前缀为StreamingAssets的
-    public string PersistentDataPath;
-    private const string FileNamePrefix = "Record_";
 
-    private int currentRecordIdValue;
     public int maxSaveRecordCount;
 
     public ThirdPersonUserControl playerCtrl;
-    public Transform ghostTrans;
+    public GhostCharacter ghost;
 
     private RecordManager() { }
     private static RecordManager instance;
@@ -21,22 +17,36 @@ public class RecordManager : MonoBehaviour
         get=>instance;
     }
 
+    [SerializeField]
+    private List<BehaviorRecord> recordList=new List<BehaviorRecord>();
 
-    public List<BehaviorRecord> recordList=new List<BehaviorRecord>();
+    [HideInInspector]
+    public BehaviorRecord curRecordingRecord;
+    [HideInInspector]
+    public bool bRecording;
 
     private void Awake()
     {
         instance = this;
-        PersistentDataPath = Application.dataPath + "Record";
-        if(!PlayerPrefs.HasKey("RecordId"))
-        {
-            PlayerPrefs.SetInt("RecordId", 1);
-            currentRecordIdValue = 1;
-        }
+    }
+    private void Start()
+    {
+        curRecordingRecord = null;
+        bRecording = false;
+    }
+
+    public void StartRecording(string name)
+    {
+        curRecordingRecord = new BehaviorRecord(name);
+        bRecording = true;
+    }
+    public void StopRecording()
+    {
+         if (recordList.Count <= 0)
+            recordList.Add(curRecordingRecord);
         else
-        {
-            currentRecordIdValue= PlayerPrefs.GetInt("RecordId");
-        }
+            recordList[0] = curRecordingRecord;
+        bRecording = false;
     }
 
 
@@ -47,66 +57,19 @@ public class RecordManager : MonoBehaviour
         recordList.RemoveAt(index);
     }
 
-    public bool SaveRecord(BehaviorRecord record)
-    {
-        if (maxSaveRecordCount <= 0) return false;
-        if (recordList.Count<maxSaveRecordCount)
-        {
-            recordList.Add(record);
-        }
-        else
-        {
-            recordList[maxSaveRecordCount - 1] = record;
-        }
-        return true;
-    }
-    bool isPlaying = false;
-    int recordIndex = 0;
-    int currentPlayingRecord;
+   
+    public bool bPlaying = false;
     public void PlayRecord(int index)
     {
         if (recordList.Count <= index) return;
-        if (isPlaying) return;
-        isPlaying = true;
-        recordIndex = 0;
-        currentPlayingRecord = index;
-        ghostTrans.position = playerCtrl.transform.position;
+        if (bPlaying) return;
+        ghost.gameObject.SetActive(true);
+        ghost.SetBehaviourRecord(recordList[index],PlayOver);
     }
 
-    private void FixedUpdate()
+    void PlayOver()
     {
-        if (isPlaying)
-        {
-            if (recordIndex < recordList[currentPlayingRecord].frameRecordList.Count)
-            {
-                ghostTrans.position += recordList[currentPlayingRecord].frameRecordList[recordIndex].deltaDisplacement;
-                recordIndex++;
-            }
-            else
-            {
-                isPlaying = false;
-            }
-        }
-        
+        bPlaying = false;
     }
-
-
-    public int GetNewId()
-    {
-        ++currentRecordIdValue;
-        PlayerPrefs.SetInt("RecordId", currentRecordIdValue);
-        return currentRecordIdValue;
-    }
-
-    public bool IsFull()
-    {
-        if(recordList.Count>=maxSaveRecordCount)
-        {
-            return true;
-        }
-        return false;
-    }
-
-
 
 }

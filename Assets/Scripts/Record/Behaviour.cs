@@ -4,38 +4,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum DataType
+{
+    Vector,
+    Float,
+    Bool
+}
+
 [System.Serializable]
-public class Behaviour : ISerializationCallbackReceiver
+public class Behaviour 
 {
     public Vector3 deltaDisplacement;//位移增量
-    public BehaviourType type;
-    //public string[] types;
-    //[NonSerialized]
-    //private List<string> typeList;
+    public float deltaYAxis; //Y轴旋转增量
+    //public bool ;
 
-    public Behaviour(Vector3 deltaDisplacement, BehaviourType type)
+    //动画的参数
+    public float forward;
+    public float turn;
+    public bool onGround;
+    public bool climb;
+    public float jump;
+    public float jumpLeg;
+
+    //
+    public float animatorSpeed;
+    public float deltaTime;
+
+
+
+
+
+    public Behaviour()
     {
-        this.deltaDisplacement = deltaDisplacement;
-        this.type = type;
-    }
-    void ISerializationCallbackReceiver.OnAfterDeserialize()
-    {
-        /*if (types == null) return;
-        type = 0;
-        for (int i=0;i<types.Length;i++)
-        {
-            type |= (BehaviourType)Enum.Parse(typeof(BehaviourType), types[i]);
-        }*/
+        deltaDisplacement = Vector3.zero;
+        deltaYAxis = 0;
+        //type = BehaviourType.Idle;
+        forward = 0;
+        turn=0;
+        onGround =false;
+        climb=false;
+        jump=0;
+        jumpLeg = 0;
+        animatorSpeed = 1;
+        deltaTime = 0.02f;
     }
 
-    void ISerializationCallbackReceiver.OnBeforeSerialize()
-    {
-        /*typeList = new List<string>();
-        foreach (BehaviourType item in Enum.GetValues(typeof(BehaviourType)))
-        {
-            typeList.Add(item.ToString());
-        }
-        types = typeList.ToArray();*/
-    }
 }
 

@@ -4,39 +4,29 @@ using UnityEngine;
 using System;
 
 [System.Serializable]
-public class BehaviorRecord : ISerializationCallbackReceiver
+public class BehaviorRecord
 {
-    //唯一标识
-    public int id;
     //本条记录的名字
     public string name;
     //帧list  每一条帧序列中可能先后包括不确定数目的行为
-    
-    public List<Behaviour> frameRecordList=new List<Behaviour>();
-    //public Behaviour[] frameRecords;
+    [SerializeField]
+    private List<Behaviour> frameRecordList=new List<Behaviour>();
 
-    public BehaviorRecord(int id,string name)
+    public BehaviorRecord(string name)
     {
-        this.id = id;
         this.name = name;
-    }
-
-    public void OnAfterDeserialize()
-    {
-        //frameRecordList = new List<Behaviour>(frameRecords);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        //frameRecords = frameRecordList.ToArray();
     }
 
     public void AddBehaviour(Behaviour behaviour)
     {
         frameRecordList.Add(behaviour);
     }
-    void Clear()
+    public int FrameCount
     {
-        frameRecordList.Clear();
+        get{ return frameRecordList.Count; }
+    }
+    public Behaviour this[int index]
+    {
+        get { return frameRecordList[index]; }
     }
 }

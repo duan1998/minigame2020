@@ -1,16 +1,6 @@
 using System;
 using UnityEngine;
 
-[Flags]public enum BehaviourType
-{
-    None = 0,
-    Idle = 1,
-    Walk = 2,
-    Jump = 4,
-    Climb = 8,    //（持续性动作）
-    PickUp = 16,  //（持续性动作）
-    PickDown = 32,
-}
 
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class ThirdPersonUserControl : MonoBehaviour
@@ -20,8 +10,6 @@ public class ThirdPersonUserControl : MonoBehaviour
     private Vector3 m_CamForward;             // The current forward direction of the camera
     private Vector3 m_Move;
     private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
-    public Vector3 lastFramePosition; //上一帧的位置
-    public Vector3 deltaDisplacement;//位移差
     public BoxCollider climbTrigger;
     public LayerMask defaultMask;
       
@@ -29,7 +17,6 @@ public class ThirdPersonUserControl : MonoBehaviour
     private static Collider[] colliders;
     private void Start()
     {
-        lastFramePosition = transform.position;
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -106,9 +93,6 @@ public class ThirdPersonUserControl : MonoBehaviour
         // pass all parameters to the character control script
         m_Character.Move(m_Move, climb, m_Jump);
         m_Jump = false;
-   
-        deltaDisplacement = transform.position - lastFramePosition;
-        lastFramePosition = transform.position;
     }
 
     

@@ -16,9 +16,13 @@ public class ThirdPersonCharacter : MonoBehaviour
     [SerializeField] float m_climbSpeed=2;
     [SerializeField] SphereCollider bottomTrigger;
 
+
     Rigidbody m_Rigidbody;
     Animator m_Animator;
     bool m_IsGrounded;
+
+    private Behaviour tempBehaviour;
+
     public bool IsGround
     {
         get { return m_IsGrounded; }
@@ -30,9 +34,9 @@ public class ThirdPersonCharacter : MonoBehaviour
     Vector3 m_GroundNormal;
     CapsuleCollider m_Capsule;
 
-    public BehaviourType behaviourType;
-
     public bool isClimb;
+
+    public Vector3 lastFramePosition; //上一帧的位置
 
     private static Collider[] colliders;
     void Start()
@@ -43,14 +47,23 @@ public class ThirdPersonCharacter : MonoBehaviour
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
-        behaviourType = BehaviourType.None;
         colliders = new Collider[20];
         isClimb = false;
+        
     }
+
+    
 
 
     public void Move(Vector3 move, bool climb, bool jump)
     {
+        if (RecordManager.Instance.bRecording&&tempBehaviour==null)
+        {
+            tempBehaviour = new Behaviour();
+        }
+        RecordVectorData("deltaDisplacement", transform.position - lastFramePosition);
+        RecordFloatData("deltaTime", Time.deltaTime);
+
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
         // direction.
@@ -70,6 +83,7 @@ public class ThirdPersonCharacter : MonoBehaviour
             m_ForwardAmount = 0;
             m_TurnAmount = 0;
         }
+
         if(climb)
         {
             HandleClimbMovement(move);
@@ -84,9 +98,26 @@ public class ThirdPersonCharacter : MonoBehaviour
             HandleAirborneMovement();
         }
 
+       
+
+
+
+
+
         // send input and other state parameters to the animator
         UpdateAnimator(move);
+
+
+        lastFramePosition = transform.position;
+
+        if (tempBehaviour != null)
+        {
+            RecordManager.Instance.curRecordingRecord.AddBehaviour(tempBehaviour);
+            tempBehaviour = null;
+        }
     }
+
+
 
 
 
@@ -96,32 +127,47 @@ public class ThirdPersonCharacter : MonoBehaviour
     {
         // update the animator parameters
         m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
+        RecordFloatData("forward", m_ForwardAmount);
+
         m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+        RecordFloatData("turn", m_TurnAmount);
+
         m_Animator.SetBool("OnGround", m_IsGrounded);
+        RecordBoolData("onGround", m_IsGrounded);
+
+
 
         // climb
         if (!m_Rigidbody.useGravity)
         {
             m_Animator.SetBool("Climb", true);
+            RecordBoolData("climb", true);
+
             if (Mathf.Abs(move.y)>0)
             {
                 m_Animator.speed = 1.5f;
+                RecordFloatData("animatorSpeed", m_Animator.speed);
             }
             else
             {
                 m_Animator.speed = 0;
+                RecordFloatData("animatorSpeed", m_Animator.speed);
             }
         }
         else
         {
             m_Animator.SetBool("Climb", false);
+            RecordBoolData("climb", false);
+
             if (!m_IsGrounded)
             {
                 m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+                RecordFloatData("jump", m_Rigidbody.velocity.y);
             }
             else
             {
                 m_Animator.SetFloat("Jump", 0);
+                RecordFloatData("jump", 0);
             }
             // calculate which leg is behind, so as to leave that leg trailing in the jump animation
             // (This code is reliant on the specific run cycle offset in our animations,
@@ -133,17 +179,21 @@ public class ThirdPersonCharacter : MonoBehaviour
             if (m_IsGrounded)
             {
                 m_Animator.SetFloat("JumpLeg", jumpLeg);
+                RecordFloatData("jumpLeg", jumpLeg);
+
             }
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
             if (m_IsGrounded && move.magnitude > 0)
             {
                 m_Animator.speed = m_AnimSpeedMultiplier;
+                RecordFloatData("animatorSpeed", m_Animator.speed);
             }
             else
             {
                 // don't use that while airborne
                 m_Animator.speed = 1;
+                RecordFloatData("animatorSpeed", m_Animator.speed);
             }
         }
        
@@ -176,6 +226,8 @@ public class ThirdPersonCharacter : MonoBehaviour
     }
 
     void HandleClimbMovement(Vector3 move)
+
+
     {
         m_Rigidbody.useGravity = false;
         m_Animator.applyRootMotion = false;
@@ -202,7 +254,10 @@ public class ThirdPersonCharacter : MonoBehaviour
     {
         // help the character turn faster (this is in addition to root rotation in the animation)
         float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+        float delatYAxis = m_TurnAmount * turnSpeed * Time.deltaTime;
         transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+
+        RecordFloatData("deltaYAxis", delatYAxis);
     }
 
 
@@ -242,6 +297,59 @@ public class ThirdPersonCharacter : MonoBehaviour
             m_GroundNormal = Vector3.up;
             m_Animator.applyRootMotion = false;
         }
+    }
+
+
+    void RecordVectorData(string name,Vector3 param)
+    {
+        if (tempBehaviour == null)
+            return;
+        switch (name)
+        {
+            case "deltaDisplacement":
+                tempBehaviour.deltaDisplacement = param;
+                break;
+        }
+        
+    }
+    void RecordBoolData(string name,bool param)
+    {
+        if (tempBehaviour == null)
+            return;
+        switch (name)
+        {
+            case "onGround":
+                tempBehaviour.onGround = param;
+                break;
+            case "climb":
+                tempBehaviour.climb = param;
+                break;
+        }
+    }
+    void RecordFloatData(string name ,float param)
+    {
+        if (tempBehaviour == null)
+            return;
+
+        switch (name)
+        {
+            case "deltaYAxis":
+                tempBehaviour.deltaYAxis = param;
+                break;
+            case "forward":
+                tempBehaviour.forward = param;
+                break;
+            case "turn":
+                tempBehaviour.turn = param;
+                break;
+            case "jump":
+                tempBehaviour.jump = param;
+                break;
+            case "jumpLeg":
+                tempBehaviour.jumpLeg = param;
+                break;
+        }
+
     }
 
 }
