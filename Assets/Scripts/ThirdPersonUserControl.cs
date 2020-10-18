@@ -12,9 +12,13 @@ public class ThirdPersonUserControl : MonoBehaviour
     private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
     public BoxCollider climbTrigger;
     public LayerMask defaultMask;
+    public bool bCarring;
       
 
     private static Collider[] colliders;
+    [SerializeField] BoxCollider frontTrigger;
+    [SerializeField] GameObject interactableBox;
+
     private void Start()
     {
         // get the transform of the main camera
@@ -32,6 +36,7 @@ public class ThirdPersonUserControl : MonoBehaviour
 
         // get the third person character ( this should never be null due to require component )
         m_Character = GetComponent<ThirdPersonCharacter>();
+        bCarring = false;
     }
 
 
@@ -40,6 +45,41 @@ public class ThirdPersonUserControl : MonoBehaviour
         if (!m_Jump)
         {
             m_Jump = Input.GetButtonDown("Jump");
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if(!bCarring)
+            {
+                //如果有，拿走
+                Physics.OverlapBoxNonAlloc(frontTrigger.transform.position, frontTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
+                if (colliders[0] != null)
+                {
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        if (colliders[i] != null && colliders[i].CompareTag("Box"))
+                        {
+                            bCarring = true;
+                            // 隐藏
+                            colliders[i].gameObject.SetActive(false);
+                            Destroy(colliders[i].gameObject);
+
+                            interactableBox.SetActive(true);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bCarring = false;
+                Vector3 boxPosition = interactableBox.transform.position+transform.forward*0.5f;
+                GameObject obj= GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
+                obj.AddComponent<Rigidbody>();
+                obj.AddComponent<BoxCollider>();
+                interactableBox.SetActive(false);
+
+            }
+           
         }
     }
 
@@ -52,20 +92,24 @@ public class ThirdPersonUserControl : MonoBehaviour
         float v = Input.GetAxis("Vertical");
 
         bool climb = false;
-   
-        Physics.OverlapBoxNonAlloc(climbTrigger.transform.position+climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
-        if (colliders[0] != null)
+
+        // 拿东西不能爬梯子
+        if (!bCarring)
         {
-            for (int i = 0; i < colliders.Length; i++)
+            Physics.OverlapBoxNonAlloc(climbTrigger.transform.position + climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
+            if (colliders[0] != null)
             {
-                if (colliders[i]!=null&&colliders[i].CompareTag("Ladder"))
+                for (int i = 0; i < colliders.Length; i++)
                 {
-                    climb = true;
-                    break;
+                    if (colliders[i] != null && colliders[i].CompareTag("Ladder"))
+                    {
+                        climb = true;
+                        break;
+                    }
                 }
             }
         }
-        
+
         if (climb && v<0 &&m_Character.IsGround)
         {
             climb = false;
@@ -91,11 +135,13 @@ public class ThirdPersonUserControl : MonoBehaviour
         }
 
         // pass all parameters to the character control script
-        m_Character.Move(m_Move, climb, m_Jump);
+        m_Character.Move(m_Move, climb, m_Jump,bCarring);
         m_Jump = false;
     }
 
     
+
+
 
 }
 

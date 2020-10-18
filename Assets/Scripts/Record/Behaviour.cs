@@ -26,6 +26,7 @@ public class Behaviour
     public float jump;
     public float jumpLeg;
     public bool climbToTop;
+    public bool carry;
 
     //
     public float animatorSpeed;
@@ -49,6 +50,7 @@ public class Behaviour
         animatorSpeed = 1;
         deltaTime = 0.02f;
         climbToTop = false;
+        carry = false;
     }
 
 }

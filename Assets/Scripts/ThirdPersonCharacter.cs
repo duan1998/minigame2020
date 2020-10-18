@@ -15,7 +15,8 @@ public class ThirdPersonCharacter : MonoBehaviour
     [SerializeField] float m_GroundCheckDistance = 0.1f;
     [SerializeField] float m_climbSpeed=2;
     [SerializeField] SphereCollider bottomTrigger;
-
+    [SerializeField] Transform leftHandTransCarring;
+    [SerializeField] Transform rightHandTransCarring;
 
     Rigidbody m_Rigidbody;
     Animator m_Animator;
@@ -34,12 +35,14 @@ public class ThirdPersonCharacter : MonoBehaviour
     Vector3 m_GroundNormal;
     CapsuleCollider m_Capsule;
 
-    public bool isClimb;
-
+    public bool bCarryIKActive;
     public Vector3 lastFramePosition; //上一帧的位置
 
     private static Collider[] colliders;
     private static RaycastHit[] hits;
+
+
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -50,11 +53,11 @@ public class ThirdPersonCharacter : MonoBehaviour
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
         colliders = new Collider[20];
         hits = new RaycastHit[20];
-        isClimb = false;
+        bCarryIKActive = false;
         
     }
 
-    public void Move(Vector3 move, bool climb, bool jump)
+    public void Move(Vector3 move, bool climb, bool jump,bool carry)
     {
         if (RecordManager.Instance.bRecording&&tempBehaviour==null)
         {
@@ -62,6 +65,7 @@ public class ThirdPersonCharacter : MonoBehaviour
         }
         RecordVectorData("deltaDisplacement", transform.position - lastFramePosition);
         RecordFloatData("deltaTime", Time.deltaTime);
+
 
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
@@ -79,29 +83,8 @@ public class ThirdPersonCharacter : MonoBehaviour
         }
         else
         {
-            //Vector3 rayOriginPoint = transform.position;
-            //rayOriginPoint.z -= 0.3f;
-            //RaycastHit hit;
-            //Ray ray = new Ray(rayOriginPoint, transform.forward);
-            //Physics.RaycastNonAlloc(ray, hits, 10, -1, QueryTriggerInteraction.Collide);
-
-            //for (int i=0;i<hits.Length;i++)
-            //{
-            //    if (hits[i].collider!=null && hits[i].collider.gameObject.name == "Ladder")
-            //    {
-            //        Vector3 temp = Vector3.ProjectOnPlane(move, hits[i].normal);
-            //        m_TurnAmount = Mathf.Atan2(temp.x, temp.z);
-            //        m_ForwardAmount = temp.z;
-            //        ApplyExtraTurnRotation();
-            //        break;
-            //    }
-            //}
-
             m_ForwardAmount = 0;
             m_TurnAmount = 0;
-
-
-
         }
 
         if(climb)
@@ -125,7 +108,7 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
         // send input and other state parameters to the animator
-        UpdateAnimator(move,climb);
+        UpdateAnimator(move,climb, carry);
 
 
         lastFramePosition = transform.position;
@@ -143,8 +126,20 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
 
-    void UpdateAnimator(Vector3 move,bool climb)
+    void UpdateAnimator(Vector3 move,bool climb,bool carry)
     {
+        m_Animator.SetBool("Carry", carry);
+
+        RecordBoolData("carry", carry);
+        if (carry)
+        {
+            bCarryIKActive = true;
+        }
+        else
+        {
+            bCarryIKActive = false;
+        }
+
         // update the animator parameters
         m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
         RecordFloatData("forward", m_ForwardAmount);
@@ -351,6 +346,9 @@ public class ThirdPersonCharacter : MonoBehaviour
             case "climbToTop":
                 tempBehaviour.climbToTop = param;
                 break;
+            case "carry":
+                tempBehaviour.carry = param;
+                break;
         }
     }
     void RecordFloatData(string name ,float param)
@@ -377,6 +375,24 @@ public class ThirdPersonCharacter : MonoBehaviour
                 break;
         }
 
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if(layerIndex==1)
+        {
+            if (bCarryIKActive)
+            {
+                m_Animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+                m_Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+
+                if (leftHandTransCarring != null)
+                {
+                    m_Animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandTransCarring.position);
+                    m_Animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTransCarring.position);
+                }
+            }
+        }
     }
 
 }

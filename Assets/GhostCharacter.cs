@@ -11,9 +11,24 @@ public class GhostCharacter : MonoBehaviour
 
     public Transform playerTrans;
     private UnityAction playOverAction;
+
+    public BoxCollider frontTrigger;
+
+    private bool bCarring;
+    private static Collider[] colliders;
+
+    [SerializeField] GameObject interactableBox;
+    [SerializeField] Transform leftHandTransCarring;
+    [SerializeField] Transform rightHandTransCarring;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        bCarring = false;
+        colliders = new Collider[20];
     }
 
     public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action)
@@ -33,6 +48,58 @@ public class GhostCharacter : MonoBehaviour
         if (bPlayingRecord)
         {
             Behaviour tempBehaviour = behaviourRecord[frameIdx];
+            if(tempBehaviour.carry)
+            {
+                if(frameIdx==0)
+                {
+                    // 谁的手也不可能这么快，第一帧瞬间按上F键 ，所以一定是录制之前已经carry的,就不在检测  
+                    bCarring = true;
+                }
+                else
+                {
+                    if (!bCarring)
+                    {
+                        //搬起箱子
+                        // 检测一下
+                        //如果有，拿走
+                        Physics.OverlapBoxNonAlloc(frontTrigger.transform.position, frontTrigger.size / 2, colliders, Quaternion.identity, -1, QueryTriggerInteraction.Collide);
+                        if (colliders[0] != null)
+                        {
+                            for (int i = 0; i < colliders.Length; i++)
+                            {
+                                if (colliders[i] != null && colliders[i].CompareTag("Box"))
+                                {
+                                    bCarring = true;
+                                    // 隐藏
+                                    colliders[i].gameObject.SetActive(false);
+                                    Destroy(colliders[i].gameObject);
+
+                                    interactableBox.SetActive(true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    bCarring = true;
+                }
+
+                
+            }
+            else
+            {
+                if (bCarring)
+                {
+                    bCarring = false;
+                    //放下箱子
+                    Vector3 boxPosition = interactableBox.transform.position + transform.forward * 0.5f;
+                    GameObject obj = GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
+                    obj.AddComponent<Rigidbody>();
+                    obj.AddComponent<BoxCollider>();
+                    interactableBox.SetActive(false);
+                }
+            }
+
+
             SetTransform(tempBehaviour);
             SetAnimator(tempBehaviour);
             frameIdx++;
@@ -42,6 +109,8 @@ public class GhostCharacter : MonoBehaviour
                 animator.speed = 0;
                 playOverAction();
             }
+
+
         }
     }
     void SetTransform(Behaviour behaviour)
@@ -62,13 +131,30 @@ public class GhostCharacter : MonoBehaviour
         animator.SetBool("Climb", behaviour.climb);
         animator.SetFloat("Jump", behaviour.jump);
         animator.SetFloat("JumpLeg", behaviour.jumpLeg);
+        animator.SetBool("Carry", behaviour.carry);
 
         if(behaviour.climbToTop)
             animator.SetTrigger("ClimbToTop");
         animator.speed = behaviour.animatorSpeed;
     }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (layerIndex == 1)
+        {
+            if (bCarring)
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
 
+                if (leftHandTransCarring != null)
+                {
+                    animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandTransCarring.position);
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTransCarring.position);
+                }
+            }
+        }
+    }
 
 
 }
