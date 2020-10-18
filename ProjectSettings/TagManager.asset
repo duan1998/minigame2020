@@ -18,8 +18,8 @@ TagManager:
   - Ground
   - Ghost
   - Interactable
-  - 
-  - 
+  - Cloth
+  - ClothCollide
   - 
   - 
   - 
