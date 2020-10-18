@@ -186,8 +186,10 @@ public class ThirdPersonCharacter : MonoBehaviour
             }
             else
             {
-                m_Animator.SetFloat("Jump", 0);
-                RecordFloatData("jump", 0);
+                //m_Animator.SetFloat("Jump", -1.99f);
+                //RecordFloatData("jump", -1.99f);
+                m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+                RecordFloatData("jump", m_Rigidbody.velocity.y);
             }
             // calculate which leg is behind, so as to leave that leg trailing in the jump animation
             // (This code is reliant on the specific run cycle offset in our animations,
