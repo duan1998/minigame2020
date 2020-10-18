@@ -155,8 +155,6 @@ public class ThirdPersonCharacter : MonoBehaviour
         m_Animator.SetBool("OnGround", m_IsGrounded);
         RecordBoolData("onGround", m_IsGrounded);
 
-
-
         // climb
         if (climb)
         {
