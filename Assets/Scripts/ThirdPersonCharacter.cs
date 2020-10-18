@@ -186,8 +186,8 @@ public class ThirdPersonCharacter : MonoBehaviour
             }
             else
             {
-                //m_Animator.SetFloat("Jump", -1.99f);
-                //RecordFloatData("jump", -1.99f);
+                m_Animator.SetFloat("Jump", 0f);
+                RecordFloatData("jump", 0f);
                 m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
                 RecordFloatData("jump", m_Rigidbody.velocity.y);
             }
@@ -307,7 +307,7 @@ public class ThirdPersonCharacter : MonoBehaviour
         RaycastHit hitInfo;
 #if UNITY_EDITOR
         // helper to visualise the ground check ray in the scene view
-        Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance),Color.red,10,false);
+        Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance),Color.red,10,true);
 #endif
         // 0.1f is a small offset to start the ray from inside the character
         // it is also good to note that the transform position in the sample assets is at the base of the character
