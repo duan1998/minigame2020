@@ -63,6 +63,8 @@ public class GhostCharacter : MonoBehaviour
         animator.SetFloat("Jump", behaviour.jump);
         animator.SetFloat("JumpLeg", behaviour.jumpLeg);
 
+        if(behaviour.climbToTop)
+            animator.SetTrigger("ClimbToTop");
         animator.speed = behaviour.animatorSpeed;
     }
 

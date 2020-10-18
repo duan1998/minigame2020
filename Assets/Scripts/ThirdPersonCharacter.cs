@@ -39,6 +39,7 @@ public class ThirdPersonCharacter : MonoBehaviour
     public Vector3 lastFramePosition; //上一帧的位置
 
     private static Collider[] colliders;
+    private static RaycastHit[] hits;
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -48,12 +49,10 @@ public class ThirdPersonCharacter : MonoBehaviour
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
         colliders = new Collider[20];
+        hits = new RaycastHit[20];
         isClimb = false;
         
     }
-
-    
-
 
     public void Move(Vector3 move, bool climb, bool jump)
     {
@@ -80,8 +79,29 @@ public class ThirdPersonCharacter : MonoBehaviour
         }
         else
         {
+            //Vector3 rayOriginPoint = transform.position;
+            //rayOriginPoint.z -= 0.3f;
+            //RaycastHit hit;
+            //Ray ray = new Ray(rayOriginPoint, transform.forward);
+            //Physics.RaycastNonAlloc(ray, hits, 10, -1, QueryTriggerInteraction.Collide);
+
+            //for (int i=0;i<hits.Length;i++)
+            //{
+            //    if (hits[i].collider!=null && hits[i].collider.gameObject.name == "Ladder")
+            //    {
+            //        Vector3 temp = Vector3.ProjectOnPlane(move, hits[i].normal);
+            //        m_TurnAmount = Mathf.Atan2(temp.x, temp.z);
+            //        m_ForwardAmount = temp.z;
+            //        ApplyExtraTurnRotation();
+            //        break;
+            //    }
+            //}
+
             m_ForwardAmount = 0;
             m_TurnAmount = 0;
+
+
+
         }
 
         if(climb)
@@ -105,7 +125,7 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
         // send input and other state parameters to the animator
-        UpdateAnimator(move);
+        UpdateAnimator(move,climb);
 
 
         lastFramePosition = transform.position;
@@ -123,7 +143,7 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
 
-    void UpdateAnimator(Vector3 move)
+    void UpdateAnimator(Vector3 move,bool climb)
     {
         // update the animator parameters
         m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
@@ -138,7 +158,7 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
         // climb
-        if (!m_Rigidbody.useGravity)
+        if (climb)
         {
             m_Animator.SetBool("Climb", true);
             RecordBoolData("climb", true);
@@ -226,12 +246,11 @@ public class ThirdPersonCharacter : MonoBehaviour
     }
 
     void HandleClimbMovement(Vector3 move)
-
-
     {
         m_Rigidbody.useGravity = false;
         m_Animator.applyRootMotion = false;
         transform.position += move * m_climbSpeed * Time.fixedDeltaTime;
+        RecordVectorData("deltaDisplacement", move * m_climbSpeed * Time.fixedDeltaTime);
 
         Physics.OverlapSphereNonAlloc(bottomTrigger.transform.position , bottomTrigger.radius, colliders, -1, QueryTriggerInteraction.Collide);
         if (colliders[0] != null)
@@ -240,9 +259,14 @@ public class ThirdPersonCharacter : MonoBehaviour
             {
                 if (colliders[i] != null && colliders[i].gameObject.name=="LadderTop")
                 {
-                    //往前1/2个身位
-                    transform.position += transform.forward*1f;
-                    m_Rigidbody.useGravity = true;
+
+                    m_Animator.applyRootMotion = true;
+                    if (!m_Animator.GetCurrentAnimatorStateInfo(0).IsName("ClimbToTop"))
+                    {
+                        m_Animator.SetTrigger("ClimbToTop");
+                        RecordBoolData("climbToTop", true);
+                    }
+                    
                     break;
                 }
             }
@@ -323,6 +347,9 @@ public class ThirdPersonCharacter : MonoBehaviour
                 break;
             case "climb":
                 tempBehaviour.climb = param;
+                break;
+            case "climbToTop":
+                tempBehaviour.climbToTop = param;
                 break;
         }
     }
