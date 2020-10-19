@@ -50,7 +50,7 @@ public class ThirdPersonUserControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if(!bCarring)
+            if (!bCarring)
             {
                 //如果有，拿走
                 Physics.OverlapBoxNonAlloc(frontTrigger.transform.position, frontTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
@@ -74,14 +74,14 @@ public class ThirdPersonUserControl : MonoBehaviour
             else
             {
                 bCarring = false;
-                Vector3 boxPosition = interactableBox.transform.position+transform.forward*0.5f;
-                GameObject obj= GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
+                Vector3 boxPosition = interactableBox.transform.position + transform.forward * 0.5f;
+                GameObject obj = GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
                 obj.AddComponent<Rigidbody>();
                 obj.AddComponent<BoxCollider>();
                 interactableBox.SetActive(false);
 
             }
-           
+
         }
     }
 
@@ -93,12 +93,11 @@ public class ThirdPersonUserControl : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-
         // 不拿东西  开始爬的时候也不能不在地面上
-        if(!(bCarring || !bClimb && !m_Character.IsGround ))
+        if (!(bCarring || !bClimb && !m_Character.IsGround))
         {
             // 当前检测是否是在梯子范围内
-            bool flag = false; 
+            bool flag = false;
             Physics.OverlapBoxNonAlloc(climbTrigger.transform.position + climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
             if (colliders[0] != null)
             {
@@ -108,22 +107,21 @@ public class ThirdPersonUserControl : MonoBehaviour
                     {
                         flag = true;
                         // 判定是否可以爬梯子是梯子的bottom决定的事，什么时候中断是Ladder的大触发器的事，什么时候登顶是Top的事
-                        if(!bClimb)
+                        if (!bClimb)
                             bClimb = CheckStartClimbLadder();
                         break;
                     }
                 }
             }
             // 不在范围内
-            if(!flag)
+            if (!flag)
             {
                 bClimb = false;
             }
         }
-        if (bClimb && v<0 &&m_Character.IsGround)
-        {
+        if (v < 0 && m_Character.IsGround || m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne"))
             bClimb = false;
-        }
+
         if (bClimb)
         {
             m_Move = v * Vector3.up + h * Vector3.right;
@@ -165,9 +163,12 @@ public class ThirdPersonUserControl : MonoBehaviour
         }
         return false;
     }
-    
 
 
+    void AnimationClimbToTopStart()
+    {
+        bClimb = false;
+    }
 
 }
 

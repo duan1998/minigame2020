@@ -21,6 +21,8 @@ public class GhostCharacter : MonoBehaviour
     [SerializeField] Transform leftHandTransCarring;
     [SerializeField] Transform rightHandTransCarring;
 
+    [SerializeField] RuntimeAnimatorController backAnimatorController;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -31,18 +33,31 @@ public class GhostCharacter : MonoBehaviour
         colliders = new Collider[20];
     }
 
-    public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action)
+    public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action,bool bBack)
     {
         this.behaviourRecord = behaviourRecord;
         this.bPlayingRecord = true;
-        frameIdx = 0;
         playOverAction = action;
         transform.position = playerTrans.position;
         transform.rotation = playerTrans.rotation;
+        this.bBack = bBack;
+        if (bBack)
+            frameIdx = behaviourRecord.FrameCount - 1;
+        else
+            frameIdx = 0;
+        if(bBack)
+        {
+            animator.runtimeAnimatorController = backAnimatorController;
+        }
+        else
+        {
+            animator.runtimeAnimatorController = null;
+        }
     }
 
 
     int frameIdx;
+    bool bBack;
     private void FixedUpdate()
     {
         if (bPlayingRecord)
@@ -50,7 +65,7 @@ public class GhostCharacter : MonoBehaviour
             Behaviour tempBehaviour = behaviourRecord[frameIdx];
             if(tempBehaviour.carry)
             {
-                if(frameIdx==0)
+                if(frameIdx==0&&! bBack|| frameIdx == behaviourRecord.FrameCount-1 && bBack)
                 {
                     // 谁的手也不可能这么快，第一帧瞬间按上F键 ，所以一定是录制之前已经carry的,就不在检测  
                     bCarring = true;
@@ -102,14 +117,29 @@ public class GhostCharacter : MonoBehaviour
 
             SetTransform(tempBehaviour);
             SetAnimator(tempBehaviour);
-            frameIdx++;
-            if(frameIdx>=behaviourRecord.FrameCount)
-            {
-                bPlayingRecord = false;
-                animator.speed = 0;
-                playOverAction();
-            }
 
+            if(bBack)
+            {
+                frameIdx--;
+                if (frameIdx < 0)
+                {
+                    bPlayingRecord = false;
+                    animator.speed = 0;
+                    animator.applyRootMotion = false;
+                    playOverAction();
+                }
+            }
+            else
+            {
+                frameIdx++;
+                if (frameIdx >= behaviourRecord.FrameCount)
+                {
+                    bPlayingRecord = false;
+                    animator.speed = 0;
+                    animator.applyRootMotion = false;
+                    playOverAction();
+                }
+            }
 
         }
     }
@@ -134,6 +164,7 @@ public class GhostCharacter : MonoBehaviour
         animator.SetBool("Carry", behaviour.carry);
         animator.SetBool("ClimbToTop",behaviour.climbToTop);
         animator.speed = behaviour.animatorSpeed;
+        
         animator.applyRootMotion = behaviour.applyRootMotion;
     }
 
@@ -154,6 +185,6 @@ public class GhostCharacter : MonoBehaviour
             }
         }
     }
-
-
+    void AnimationClimbToTopStart() { }
+    void AnimationClimbToTopEnd() { }
 }

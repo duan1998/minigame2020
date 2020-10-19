@@ -64,8 +64,17 @@ public class RecordManager : MonoBehaviour
         if (recordList.Count <= index) return;
         if (bPlaying) return;
         ghost.gameObject.SetActive(true);
-        ghost.SetBehaviourRecord(recordList[index],PlayOver);
+        ghost.SetBehaviourRecord(recordList[index],PlayOver,false);
     }
+
+    public void PlayBackRecord(int index)
+    {
+        if (recordList.Count <= index) return;
+        if (bPlaying) return;
+        ghost.gameObject.SetActive(true);
+        ghost.SetBehaviourRecord(recordList[index], PlayOver, true);
+    }
+
 
     void PlayOver()
     {
