@@ -35,9 +35,9 @@ public class RecordManager : MonoBehaviour
         bRecording = false;
     }
 
-    public void StartRecording(string name)
+    public void StartRecording()
     {
-        curRecordingRecord = new BehaviorRecord(name);
+        curRecordingRecord = new BehaviorRecord();
         bRecording = true;
     }
     public void StopRecording()
@@ -79,6 +79,7 @@ public class RecordManager : MonoBehaviour
     void PlayOver()
     {
         bPlaying = false;
+        ghost.gameObject.SetActive(false);
     }
 
 }

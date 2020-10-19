@@ -17,6 +17,10 @@ public class CameraZoomCtrl : MonoBehaviour
     {
         freeLookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
     }
+    private void Start()
+    {
+        curZoomVector = new Vector3(freeLookCamera.m_Orbits[0].m_Radius, freeLookCamera.m_Orbits[1].m_Radius, freeLookCamera.m_Orbits[2].m_Radius);
+    }
     // Update is called once per frame
     void Update()
     {

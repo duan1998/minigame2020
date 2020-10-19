@@ -22,6 +22,7 @@ public class GhostCharacter : MonoBehaviour
     [SerializeField] Transform rightHandTransCarring;
 
     [SerializeField] RuntimeAnimatorController backAnimatorController;
+    [SerializeField] RuntimeAnimatorController normalAnimatorController;
 
     private void Awake()
     {
@@ -51,8 +52,9 @@ public class GhostCharacter : MonoBehaviour
         }
         else
         {
-            animator.runtimeAnimatorController = null;
+            animator.runtimeAnimatorController = normalAnimatorController;
         }
+ 
     }
 
 
@@ -125,7 +127,7 @@ public class GhostCharacter : MonoBehaviour
                 {
                     bPlayingRecord = false;
                     animator.speed = 0;
-                    animator.applyRootMotion = false;
+
                     playOverAction();
                 }
             }
@@ -136,7 +138,8 @@ public class GhostCharacter : MonoBehaviour
                 {
                     bPlayingRecord = false;
                     animator.speed = 0;
-                    animator.applyRootMotion = false;
+                    this.gameObject.SetActive(false);
+                    
                     playOverAction();
                 }
             }

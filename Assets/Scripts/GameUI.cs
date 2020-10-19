@@ -8,9 +8,6 @@ using UnityEngine.UI;
 public class GameUI : MonoBehaviour
 {
     public Image recordRemainingTimeBar;
-    public GameObject recordNameInputObj;
-    public InputField recordNameInputField;
-    public Button recordNameSubmitBtn;
 
     public float recordDuration;//录制的时长
     private float curRecordRemainingTime;
@@ -19,7 +16,7 @@ public class GameUI : MonoBehaviour
     public CinemachineFreeLook followCamera;
     private void Awake()
     {
-        recordNameSubmitBtn.onClick.AddListener(OnSubmitBtnClick);
+        
     }
     // Start is called before the first frame update
     private void Start()
@@ -62,13 +59,11 @@ public class GameUI : MonoBehaviour
     void StartRecord()
     {
         curRecordRemainingTime = recordDuration;
-        recordNameInputObj.SetActive(true);
-        recordNameInputField.text = "";
-        Cursor.lockState = CursorLockMode.None;
-        followCamera.enabled = false;
-        Cursor.visible = true;
-        playerCtrl.enabled = false;
-        
+
+
+        RecordManager.Instance.StartRecording();
+        ShowRecordRemainingTimeBar();
+
     }
 
     void ShowRecordRemainingTimeBar()
@@ -80,23 +75,5 @@ public class GameUI : MonoBehaviour
         recordRemainingTimeBar.transform.parent.gameObject.SetActive(false);
     }
 
-    void OnSubmitBtnClick()
-    {
-        if (recordNameInputField.text == null || recordNameInputField.text == "")
-        {
-            Debug.Log("无法保存空名字的录像");
-        }
-        else
-        {
-            RecordManager.Instance.StartRecording(recordNameInputField.text);
-            recordNameInputObj.SetActive(false);
-            ShowRecordRemainingTimeBar();
-
-            playerCtrl.enabled = true;
-            followCamera.enabled = true;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
     
 }

@@ -1032,7 +1032,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15208
+  m_Name: pb_Mesh32352
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1195,7 +1195,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14924
+  m_Name: pb_Mesh32068
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1385,7 +1385,7 @@ Transform:
   - {fileID: 591091384}
   - {fileID: 693460536}
   m_Father: {fileID: 139458201206332203}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &284110870
 MonoBehaviour:
@@ -2020,8 +2020,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.22409058, z: 1}
-  m_Center: {x: 0, y: 0.3879547, z: 0}
+  m_Size: {x: 1, y: 0.76542675, z: 1}
+  m_Center: {x: 0, y: -0.45284605, z: 0}
 --- !u!23 &400198550
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3284,7 +3284,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14984
+  m_Name: pb_Mesh32128
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3483,8 +3483,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.202053, y: 0.68426514, z: 0.11499019}
-  m_Center: {x: 0.0035535842, y: -0.18484497, z: 0.07089668}
+  m_Size: {x: 0.202053, y: 0.15142822, z: 0.11499019}
+  m_Center: {x: 0.0035535842, y: -0.45126343, z: 0.07089668}
 --- !u!1 &960379735
 GameObject:
   m_ObjectHideFlags: 0
@@ -4708,7 +4708,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.4747, z: 1}
   m_Children: []
   m_Father: {fileID: 139458201206332203}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1108265705
 GameObject:
@@ -5309,50 +5309,6 @@ Transform:
   m_Father: {fileID: 2004061011}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1361075083
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1361075084}
-  - component: {fileID: 1361075085}
-  m_Layer: 9
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1361075084
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361075083}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.869, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 139458201206332203}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1361075085
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361075083}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.202053, y: 0.9270935, z: 0.1149902}
-  m_Center: {x: 0.0035535842, y: -0.30625916, z: 0.07089668}
 --- !u!1 &1380104733
 GameObject:
   m_ObjectHideFlags: 0
@@ -5513,7 +5469,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431603757}
-  m_LocalRotation: {x: -0.027081463, y: 0.13431855, z: 0.003672204, w: 0.9905613}
+  m_LocalRotation: {x: -0.027081465, y: 0.13431855, z: 0.0036722042, w: 0.9905613}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5646,7 +5602,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14840
+  m_Name: pb_Mesh31972
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5833,9 +5789,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordRemainingTimeBar: {fileID: 1044587862}
-  recordNameInputObj: {fileID: 772039154}
-  recordNameInputField: {fileID: 244612771}
-  recordNameSubmitBtn: {fileID: 1516846801}
   recordDuration: 10
   playerCtrl: {fileID: 990184570}
   followCamera: {fileID: 196445634}
@@ -5971,7 +5924,6 @@ MonoBehaviour:
   ghost: {fileID: 139458201206615728}
   recordList: []
   curRecordingRecord:
-    name: 
     frameRecordList: []
   bRecording: 0
   bPlaying: 0
@@ -6117,13 +6069,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3870d96f05e3a244fad0bb1c701d1aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 0}
-  moveSpeed: 30
-  jumpForce: 5
-  bottomCollider: {fileID: 1340635290}
-  h: 0
-  v: 0
-  deltaMove: {x: 0, y: 0, z: 0}
 --- !u!23 &2004061009
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6192,7 +6137,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-397764
+  m_Name: pb_Mesh32030
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6380,8 +6325,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 8.3349495, z: 0.2}
-  m_Center: {x: 0.5, y: 4.1674747, z: -0.1}
+  m_Size: {x: 1, y: 6.6840034, z: 0.2}
+  m_Center: {x: 0.5, y: 3.3420017, z: -0.1}
 --- !u!114 &2026300489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7120,7 +7065,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15042
+  m_Name: pb_Mesh32186
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8220,7 +8165,6 @@ Transform:
   m_Children:
   - {fileID: 139458201206262791}
   - {fileID: 139458201206387117}
-  - {fileID: 1361075084}
   - {fileID: 1106108188}
   - {fileID: 284110869}
   m_Father: {fileID: 0}
@@ -9684,6 +9628,10 @@ MonoBehaviour:
   interactableBox: {fileID: 284110868}
   leftHandTransCarring: {fileID: 591091384}
   rightHandTransCarring: {fileID: 693460536}
+  backAnimatorController: {fileID: 9100000, guid: 438ad0b6a11b7bb40a8bccd038f1f316,
+    type: 2}
+  normalAnimatorController: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9,
+    type: 2}
 --- !u!1 &139458201206616011
 GameObject:
   m_ObjectHideFlags: 0
