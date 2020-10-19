@@ -13,7 +13,7 @@ public class ThirdPersonUserControl : MonoBehaviour
     public BoxCollider climbTrigger;
     public LayerMask defaultMask;
     public bool bCarring;
-      
+    public bool bClimb;
 
     private static Collider[] colliders;
     [SerializeField] BoxCollider frontTrigger;
@@ -37,6 +37,7 @@ public class ThirdPersonUserControl : MonoBehaviour
         // get the third person character ( this should never be null due to require component )
         m_Character = GetComponent<ThirdPersonCharacter>();
         bCarring = false;
+        bClimb = false;
     }
 
 
@@ -91,11 +92,11 @@ public class ThirdPersonUserControl : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        bool climb = false;
 
-        // 拿东西不能爬梯子
-        if (!bCarring)
+        // 不拿东西  开始爬的时候也不能不在地面上
+        if(!(bCarring || !bClimb && !m_Character.IsGround))
         {
+            bClimb = false;
             Physics.OverlapBoxNonAlloc(climbTrigger.transform.position + climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
             if (colliders[0] != null)
             {
@@ -103,18 +104,17 @@ public class ThirdPersonUserControl : MonoBehaviour
                 {
                     if (colliders[i] != null && colliders[i].CompareTag("Ladder"))
                     {
-                        climb = true;
+                        bClimb = true;
                         break;
                     }
                 }
             }
         }
-
-        if (climb && v<0 &&m_Character.IsGround)
+        if (bClimb && v<0 &&m_Character.IsGround)
         {
-            climb = false;
+            bClimb = false;
         }
-        if (climb)
+        if (bClimb)
         {
             m_Move = v * Vector3.up + h * Vector3.right;
         }
@@ -135,7 +135,7 @@ public class ThirdPersonUserControl : MonoBehaviour
         }
 
         // pass all parameters to the character control script
-        m_Character.Move(m_Move, climb, m_Jump,bCarring);
+        m_Character.Move(m_Move, bClimb, m_Jump,bCarring);
         m_Jump = false;
     }
 
