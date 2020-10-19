@@ -556,7 +556,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156597433}
-  m_LocalRotation: {x: 0.015563129, y: 0.13435216, z: -0.002110336, w: 0.9908092}
+  m_LocalRotation: {x: 0.015563131, y: 0.13435216, z: -0.0021103362, w: 0.9908092}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9623,7 +9623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b50814ed0c07e043bb2bb3a4607a8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTrans: {fileID: 990184574}
+  playerTrans: {fileID: 543450651636541107}
   frontTrigger: {fileID: 1106108185}
   interactableBox: {fileID: 284110868}
   leftHandTransCarring: {fileID: 591091384}

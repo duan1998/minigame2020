@@ -36,11 +36,12 @@ public class GhostCharacter : MonoBehaviour
 
     public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action,bool bBack)
     {
+        transform.position = playerTrans.position;
+        transform.rotation = playerTrans.rotation;
+        this.gameObject.SetActive(true);
         this.behaviourRecord = behaviourRecord;
         this.bPlayingRecord = true;
         playOverAction = action;
-        transform.position = playerTrans.position;
-        transform.rotation = playerTrans.rotation;
         this.bBack = bBack;
         if (bBack)
             frameIdx = behaviourRecord.FrameCount - 1;
