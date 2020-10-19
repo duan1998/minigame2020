@@ -132,10 +132,9 @@ public class GhostCharacter : MonoBehaviour
         animator.SetFloat("Jump", behaviour.jump);
         animator.SetFloat("JumpLeg", behaviour.jumpLeg);
         animator.SetBool("Carry", behaviour.carry);
-
-        if(behaviour.climbToTop)
-            animator.SetTrigger("ClimbToTop");
+        animator.SetBool("ClimbToTop",behaviour.climbToTop);
         animator.speed = behaviour.animatorSpeed;
+        animator.applyRootMotion = behaviour.applyRootMotion;
     }
 
     private void OnAnimatorIK(int layerIndex)

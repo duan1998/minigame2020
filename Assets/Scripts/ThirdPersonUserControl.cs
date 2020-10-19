@@ -18,6 +18,7 @@ public class ThirdPersonUserControl : MonoBehaviour
     private static Collider[] colliders;
     [SerializeField] BoxCollider frontTrigger;
     [SerializeField] GameObject interactableBox;
+    [SerializeField] SphereCollider bottomTrigger;
 
     private void Start()
     {
@@ -94,9 +95,10 @@ public class ThirdPersonUserControl : MonoBehaviour
 
 
         // 不拿东西  开始爬的时候也不能不在地面上
-        if(!(bCarring || !bClimb && !m_Character.IsGround))
+        if(!(bCarring || !bClimb && !m_Character.IsGround ))
         {
-            bClimb = false;
+            // 当前检测是否是在梯子范围内
+            bool flag = false; 
             Physics.OverlapBoxNonAlloc(climbTrigger.transform.position + climbTrigger.center, climbTrigger.size / 2, colliders, Quaternion.identity, defaultMask, QueryTriggerInteraction.Collide);
             if (colliders[0] != null)
             {
@@ -104,10 +106,18 @@ public class ThirdPersonUserControl : MonoBehaviour
                 {
                     if (colliders[i] != null && colliders[i].CompareTag("Ladder"))
                     {
-                        bClimb = true;
+                        flag = true;
+                        // 判定是否可以爬梯子是梯子的bottom决定的事，什么时候中断是Ladder的大触发器的事，什么时候登顶是Top的事
+                        if(!bClimb)
+                            bClimb = CheckStartClimbLadder();
                         break;
                     }
                 }
+            }
+            // 不在范围内
+            if(!flag)
+            {
+                bClimb = false;
             }
         }
         if (bClimb && v<0 &&m_Character.IsGround)
@@ -139,6 +149,22 @@ public class ThirdPersonUserControl : MonoBehaviour
         m_Jump = false;
     }
 
+
+    bool CheckStartClimbLadder()
+    {
+        Physics.OverlapSphereNonAlloc(bottomTrigger.transform.position, bottomTrigger.radius, colliders, defaultMask, QueryTriggerInteraction.Collide);
+        if (colliders[0] != null)
+        {
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (colliders[i] !=null && colliders[i].name=="Bottom"&&colliders[i].transform.parent.CompareTag("Ladder"))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
 
 

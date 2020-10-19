@@ -27,11 +27,12 @@ public class Behaviour
     public float jumpLeg;
     public bool climbToTop;
     public bool carry;
+    public bool applyRootMotion;
 
     //
     public float animatorSpeed;
     public float deltaTime;
-
+    
 
 
 
@@ -51,6 +52,7 @@ public class Behaviour
         deltaTime = 0.02f;
         climbToTop = false;
         carry = false;
+        applyRootMotion = true;
     }
 
 }

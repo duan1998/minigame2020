@@ -41,7 +41,13 @@ public class ThirdPersonCharacter : MonoBehaviour
     private static Collider[] colliders;
     private static RaycastHit[] hits;
 
+    [SerializeField] LayerMask groundLayerMask;
 
+    [SerializeField] bool applyMotion;
+    private void Update()
+    {
+        applyMotion = m_Animator.applyRootMotion;
+    }
 
     void Start()
     {
@@ -63,7 +69,6 @@ public class ThirdPersonCharacter : MonoBehaviour
         {
             tempBehaviour = new Behaviour();
         }
-        RecordVectorData("deltaDisplacement", transform.position - lastFramePosition);
         RecordFloatData("deltaTime", Time.deltaTime);
 
 
@@ -91,6 +96,10 @@ public class ThirdPersonCharacter : MonoBehaviour
         {
             HandleClimbMovement(move);
         }
+        else if(m_Animator.GetCurrentAnimatorStateInfo(0).IsName("ClimbToTop"))
+        {
+            m_Rigidbody.useGravity = false;
+        }
         // control and velocity handling is different when grounded and airborne:
         else if (m_IsGrounded)
         {
@@ -111,13 +120,16 @@ public class ThirdPersonCharacter : MonoBehaviour
         UpdateAnimator(move,climb, carry);
 
 
-        lastFramePosition = transform.position;
+
+
+        RecordVectorData("deltaDisplacement", transform.position- lastFramePosition);
 
         if (tempBehaviour != null)
         {
             RecordManager.Instance.curRecordingRecord.AddBehaviour(tempBehaviour);
             tempBehaviour = null;
         }
+        lastFramePosition = transform.position;
     }
 
 
@@ -155,22 +167,29 @@ public class ThirdPersonCharacter : MonoBehaviour
         {
             m_Animator.SetBool("Climb", true);
             RecordBoolData("climb", true);
-
-            if (Mathf.Abs(move.y)>0)
+            if (!m_Animator.GetCurrentAnimatorStateInfo(0).IsName("ClimbToTop"))
             {
-                m_Animator.speed = 1.5f;
-                RecordFloatData("animatorSpeed", m_Animator.speed);
-            }
-            else
-            {
-                m_Animator.speed = 0;
-                RecordFloatData("animatorSpeed", m_Animator.speed);
-            }
+                if (Mathf.Abs(move.y) > 0)
+                {
+                    m_Animator.speed = 1.5f;
+                    RecordFloatData("animatorSpeed", m_Animator.speed);
+                }
+                else
+                {
+                    m_Animator.speed = 0;
+                    RecordFloatData("animatorSpeed", m_Animator.speed);
+                }
+            }            
         }
         else
         {
+            m_Animator.SetBool("ClimbToTop", false);
+            RecordBoolData("climbToTop", false);
+
             m_Animator.SetBool("Climb", false);
             RecordBoolData("climb", false);
+
+
 
             if (!m_IsGrounded)
             {
@@ -235,6 +254,7 @@ public class ThirdPersonCharacter : MonoBehaviour
             m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
             m_IsGrounded = false;
             m_Animator.applyRootMotion = false;
+            RecordBoolData("applyRootMotion", false);
             m_GroundCheckDistance = 0.1f;
         }
         m_Rigidbody.useGravity = true;
@@ -244,29 +264,32 @@ public class ThirdPersonCharacter : MonoBehaviour
     {
         m_Rigidbody.useGravity = false;
         m_Animator.applyRootMotion = false;
-        transform.position += move * m_climbSpeed * Time.fixedDeltaTime;
-        RecordVectorData("deltaDisplacement", move * m_climbSpeed * Time.fixedDeltaTime);
+        RecordBoolData("applyRootMotion", false);
 
-        Physics.OverlapSphereNonAlloc(bottomTrigger.transform.position , bottomTrigger.radius, colliders, -1, QueryTriggerInteraction.Collide);
+        transform.position += move * m_climbSpeed * Time.fixedDeltaTime;
+        bool bClimbToTop = false;
+        Physics.OverlapSphereNonAlloc(bottomTrigger.transform.position, bottomTrigger.radius, colliders, -1, QueryTriggerInteraction.Collide);
         if (colliders[0] != null)
         {
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i] != null && colliders[i].gameObject.name=="LadderTop")
+                if (colliders[i] != null && colliders[i].gameObject.name == "Top")
                 {
-
-                    m_Animator.applyRootMotion = true;
                     if (!m_Animator.GetCurrentAnimatorStateInfo(0).IsName("ClimbToTop"))
                     {
-                        m_Animator.SetTrigger("ClimbToTop");
+                        m_Animator.SetBool("ClimbToTop",true);
                         RecordBoolData("climbToTop", true);
+                        bClimbToTop = true;
                     }
-                    
                     break;
                 }
             }
+        }    
+        if(!bClimbToTop)
+        {
+            m_Animator.SetBool("ClimbToTop", false);
+            RecordBoolData("climbToTop", false);
         }
-
     }
 
     void ApplyExtraTurnRotation()
@@ -309,12 +332,15 @@ public class ThirdPersonCharacter : MonoBehaviour
             m_GroundNormal = hitInfo.normal;
             m_IsGrounded = true;
             m_Animator.applyRootMotion = true;
+            RecordBoolData("applyRootMotion", true);
         }
         else
         {
             m_IsGrounded = false;
             m_GroundNormal = Vector3.up;
+
             m_Animator.applyRootMotion = false;
+            RecordBoolData("applyRootMotion", false);
         }
     }
 
@@ -348,6 +374,9 @@ public class ThirdPersonCharacter : MonoBehaviour
                 break;
             case "carry":
                 tempBehaviour.carry = param;
+                break;
+            case "applyRootMotion":
+                tempBehaviour.applyRootMotion = param;
                 break;
         }
     }
