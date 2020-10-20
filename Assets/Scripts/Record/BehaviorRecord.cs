@@ -10,6 +10,7 @@ public class BehaviorRecord
     [SerializeField]
     private List<Behaviour> frameRecordList=new List<Behaviour>();
 
+
     public BehaviorRecord()
     {
     }
@@ -20,10 +21,20 @@ public class BehaviorRecord
     }
     public int FrameCount
     {
-        get{ return frameRecordList.Count; }
+        get
+        {
+            if (frameRecordList!=null)
+                return frameRecordList.Count;
+            return 0;
+        }
     }
     public Behaviour this[int index]
     {
-        get { return frameRecordList[index]; }
+        get 
+        {
+            if (frameRecordList != null)
+                return frameRecordList[index];
+            return null;
+        }
     }
 }

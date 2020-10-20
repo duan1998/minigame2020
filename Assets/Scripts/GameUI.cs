@@ -49,11 +49,11 @@ public class GameUI : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.F1)&&!RecordManager.Instance.bPlaying)
         {
-            RecordManager.Instance.PlayRecord(0);
+            //RecordManager.Instance.PlayRecord();
         }
         if(Input.GetKeyDown(KeyCode.Alpha1)&&!RecordManager.Instance.bPlaying)
         {
-            RecordManager.Instance.PlayBackRecord(0);
+            //RecordManager.Instance.PlayBackRecord(0);
         }
     }
     void StartRecord()

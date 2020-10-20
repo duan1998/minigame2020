@@ -19,9 +19,11 @@ public class ThirdPersonUserControl : MonoBehaviour
     [SerializeField] BoxCollider frontTrigger;
     [SerializeField] GameObject interactableBox;
     [SerializeField] SphereCollider bottomTrigger;
+    public bool CanCarry;
 
     private void Start()
     {
+        CanCarry = false;
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -48,7 +50,7 @@ public class ThirdPersonUserControl : MonoBehaviour
         {
             m_Jump = Input.GetButtonDown("Jump");
         }
-        if (Input.GetKeyDown(KeyCode.F)&&!bClimb)
+        if (Input.GetKeyDown(KeyCode.F)&&!bClimb&& CanCarry)
         {
             if (!bCarring)
             {

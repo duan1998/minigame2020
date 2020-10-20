@@ -36,9 +36,6 @@ public class GhostCharacter : MonoBehaviour
 
     public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action,bool bBack)
     {
-        transform.position = playerTrans.position;
-        transform.rotation = playerTrans.rotation;
-        this.gameObject.SetActive(true);
         this.behaviourRecord = behaviourRecord;
         this.bPlayingRecord = true;
         playOverAction = action;
@@ -49,10 +46,14 @@ public class GhostCharacter : MonoBehaviour
             frameIdx = 0;
         if(bBack)
         {
+            if(animator==null)
+                animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = backAnimatorController;
         }
         else
         {
+            if (animator == null)
+                animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = normalAnimatorController;
         }
  
@@ -139,7 +140,6 @@ public class GhostCharacter : MonoBehaviour
                 {
                     bPlayingRecord = false;
                     animator.speed = 0;
-                    this.gameObject.SetActive(false);
                     
                     playOverAction();
                 }
@@ -169,7 +169,7 @@ public class GhostCharacter : MonoBehaviour
         animator.SetBool("ClimbToTop",behaviour.climbToTop);
         animator.speed = behaviour.animatorSpeed;
         
-        animator.applyRootMotion = behaviour.applyRootMotion;
+        //animator.applyRootMotion = behaviour.applyRootMotion;
     }
 
     private void OnAnimatorIK(int layerIndex)
