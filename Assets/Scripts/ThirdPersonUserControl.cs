@@ -48,7 +48,7 @@ public class ThirdPersonUserControl : MonoBehaviour
         {
             m_Jump = Input.GetButtonDown("Jump");
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F)&&!bClimb)
         {
             if (!bCarring)
             {
