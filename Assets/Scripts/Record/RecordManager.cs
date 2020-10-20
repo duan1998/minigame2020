@@ -47,6 +47,7 @@ public class RecordManager : MonoBehaviour
     private List<RecordModeItem> willPlayRecordBuffer; //将要播放的record的序列缓冲，不重复
     private int curPlayingBufferIndex; // 正在播放缓冲里的record的index
 
+    [SerializeField]
     private bool canBackPlay;
 
     [SerializeField] MainUI mainUI;
