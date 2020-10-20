@@ -70,16 +70,17 @@ public class RecordManager : MonoBehaviour
         mainUI.Set(status);
     }
 
-    public void StartRecording()
+    public bool StartRecording()
     {
         if (bRecording || bPlaying)
         {
             mainUI.Wrong(curSelectRecordIndex);
-            return;
+            return false;
         }
         mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.Recording);
         curRecordingRecord = new BehaviorRecord();
         bRecording = true;
+        return true;
     }
     public void StopRecording()
     {
@@ -208,7 +209,7 @@ public class RecordManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.G))
         {
             // 录制
-            StartRecording();
+            //StartRecording();
         }
     }
 

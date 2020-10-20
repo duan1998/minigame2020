@@ -43,7 +43,7 @@ public class GameUI : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.P)&&!RecordManager.Instance.bRecording)
+        if (Input.GetKeyDown(KeyCode.G)&&!RecordManager.Instance.bRecording)
         {
             StartRecord();
         }
@@ -61,8 +61,9 @@ public class GameUI : MonoBehaviour
         curRecordRemainingTime = recordDuration;
 
 
-        RecordManager.Instance.StartRecording();
-        ShowRecordRemainingTimeBar();
+        bool result=RecordManager.Instance.StartRecording();
+        if(result)
+            ShowRecordRemainingTimeBar();
 
     }
 
