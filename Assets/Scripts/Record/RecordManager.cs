@@ -124,7 +124,7 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
         }
-
+        bPlaying = true;
         ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
     }
 
