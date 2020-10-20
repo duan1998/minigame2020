@@ -169,7 +169,7 @@ public class GhostCharacter : MonoBehaviour
         animator.SetBool("ClimbToTop",behaviour.climbToTop);
         animator.speed = behaviour.animatorSpeed;
         
-        //animator.applyRootMotion = behaviour.applyRootMotion;
+        animator.applyRootMotion = behaviour.applyRootMotion;
     }
 
     private void OnAnimatorIK(int layerIndex)

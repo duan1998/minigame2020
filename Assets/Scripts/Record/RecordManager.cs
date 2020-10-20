@@ -115,7 +115,7 @@ public class RecordManager : MonoBehaviour
         {
             for(int i=0;i<willPlayRecordBuffer.Count;i++)
             {
-                if (willPlayRecordBuffer[i].recordIndex==curPlayingBufferIndex)
+                if (willPlayRecordBuffer[i].recordIndex== curSelectRecordIndex)
                 {
                     // 已经在播放缓冲里了，不能再播放
                     mainUI.NoticePlayingOrHasWouldPlay(curSelectRecordIndex);
@@ -151,7 +151,7 @@ public class RecordManager : MonoBehaviour
         {
             for (int i = 0; i < willPlayRecordBuffer.Count; i++)
             {
-                if (willPlayRecordBuffer[i].recordIndex == curPlayingBufferIndex)
+                if (willPlayRecordBuffer[i].recordIndex == curSelectRecordIndex)
                 {
                     // 已经在播放缓冲里了，不能再播放
                     mainUI.NoticePlayingOrHasWouldPlay(curSelectRecordIndex);
