@@ -30,7 +30,7 @@ public class GameUI : MonoBehaviour
         if (RecordManager.Instance.bRecording)
         {
             //记录行为
-            curRecordRemainingTime -= Time.fixedDeltaTime;
+            curRecordRemainingTime -= Time.deltaTime;
             if (curRecordRemainingTime <= 0)
             {
                 HideRecordRemainingTimeBar();
