@@ -6517,7 +6517,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431603757}
-  m_LocalRotation: {x: -0.027081463, y: 0.13431855, z: 0.003672204, w: 0.9905613}
+  m_LocalRotation: {x: -0.027081463, y: 0.13431856, z: 0.0036722037, w: 0.9905613}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7261,7 +7261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recordRemainingTimeBar: {fileID: 1044587862}
-  recordDuration: 10
+  recordDuration: 6
   playerCtrl: {fileID: 990184570}
   followCamera: {fileID: 196445634}
 --- !u!4 &1652988174
@@ -7403,7 +7403,7 @@ MonoBehaviour:
   curRecordingRecord:
     frameRecordList: []
   bRecording: 0
-  canBackPlay: 0
+  canBackPlay: 1
   mainUI: {fileID: 470737411}
   bPlaying: 0
 --- !u!4 &1892071903
@@ -8700,7 +8700,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26460
+  m_Name: pb_Mesh15502
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

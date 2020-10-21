@@ -152,10 +152,17 @@ public class GhostCharacter : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);
 
-        Vector3 targetPosition = transform.forward * behaviour.deltaHorizontalDisplacement;
-        targetPosition.y = behaviour.deltaVerticalDisplacement;
-        targetPosition += transform.position;
-        transform.position = targetPosition;
+        Vector3 deltaOffset = transform.forward * behaviour.deltaHorizontalDisplacement;
+        deltaOffset.y = 0;
+        if(bBack)
+        {
+            transform.position -= deltaOffset;
+        }
+        else
+        {
+            transform.position += deltaOffset;
+        }
+        transform.position += new Vector3(0, behaviour.deltaVerticalDisplacement, 0);
     }
     void SetAnimator(Behaviour behaviour)
     {
