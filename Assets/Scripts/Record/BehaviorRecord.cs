@@ -8,11 +8,12 @@ public class BehaviorRecord
 {
     //帧list  每一条帧序列中可能先后包括不确定数目的行为
     [SerializeField]
-    private List<Behaviour> frameRecordList=new List<Behaviour>();
+    private List<Behaviour> frameRecordList;
 
 
     public BehaviorRecord()
     {
+        frameRecordList = new List<Behaviour>();
     }
 
     public void AddBehaviour(Behaviour behaviour)
