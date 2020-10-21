@@ -16,6 +16,7 @@ public class GhostCharacter : MonoBehaviour
 
     private bool bCarring;
     private static Collider[] colliders;
+    [SerializeField] Transform character;
 
     [SerializeField] GameObject interactableBox;
     [SerializeField] Transform leftHandTransCarring;
@@ -150,9 +151,8 @@ public class GhostCharacter : MonoBehaviour
     void SetTransform(Behaviour behaviour)
     {
         Vector3 targetPosition = Vector3.zero;
-        //targetPosition = playerTrans.forward * behaviour.deltaDisplacement.z + playerTrans.up * behaviour.deltaDisplacement.y + playerTrans.right * behaviour.x;
-        targetPosition = transform.position;
-        targetPosition.y += behaviour.deltaDisplacement.y;
+        targetPosition = character.forward * behaviour.deltaDisplacement.z + character.up * behaviour.deltaDisplacement.y + character.right * behaviour.deltaDisplacement.x;
+        targetPosition = transform.position+ targetPosition;
         transform.position = targetPosition;
 
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);
