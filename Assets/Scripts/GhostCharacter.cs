@@ -168,7 +168,7 @@ public class GhostCharacter : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);
 
         Vector3 deltaOffset = transform.forward * behaviour.deltaHorizontalDisplacement;
-        deltaOffset.y = 0;
+        deltaOffset.y = behaviour.deltaVerticalDisplacement;
         if(bBack)
         {
             transform.position -= deltaOffset;
@@ -177,7 +177,6 @@ public class GhostCharacter : MonoBehaviour
         {
             transform.position += deltaOffset;
         }
-        transform.position += new Vector3(0, behaviour.deltaVerticalDisplacement, 0);
     }
     void SetAnimator(Behaviour behaviour)
     {
