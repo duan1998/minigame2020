@@ -48,7 +48,7 @@ public class RecordManager : MonoBehaviour
     private int curPlayingBufferIndex; // 正在播放缓冲里的record的index
 
     [SerializeField]
-    private bool canBackPlay;
+    public bool canBackPlay;
 
     [SerializeField] MainUI mainUI;
 
