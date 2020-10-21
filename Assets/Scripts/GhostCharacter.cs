@@ -150,12 +150,12 @@ public class GhostCharacter : MonoBehaviour
     }
     void SetTransform(Behaviour behaviour)
     {
-        Vector3 targetPosition = Vector3.zero;
-        targetPosition = character.forward * behaviour.deltaDisplacement.z + character.up * behaviour.deltaDisplacement.y + character.right * behaviour.deltaDisplacement.x;
-        targetPosition = transform.position+ targetPosition;
-        transform.position = targetPosition;
-
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);
+
+        Vector3 targetPosition = transform.forward * behaviour.deltaHorizontalDisplacement;
+        targetPosition.y = behaviour.deltaVerticalDisplacement;
+        targetPosition += transform.position;
+        transform.position = targetPosition;
     }
     void SetAnimator(Behaviour behaviour)
     {

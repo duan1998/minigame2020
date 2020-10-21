@@ -14,7 +14,9 @@ public enum DataType
 [System.Serializable]
 public class Behaviour 
 {
-    public Vector3 deltaDisplacement;//位移增量
+    public float deltaHorizontalDisplacement;//水平位移增量
+    public float deltaVerticalDisplacement;//竖直位移增量
+
     public float deltaYAxis; //Y轴旋转增量
     //public bool ;
 
@@ -39,7 +41,8 @@ public class Behaviour
 
     public Behaviour()
     {
-        deltaDisplacement = Vector3.zero;
+        deltaHorizontalDisplacement = 0;
+        deltaVerticalDisplacement = 0;
         deltaYAxis = 0;
         //type = BehaviourType.Idle;
         forward = 0;

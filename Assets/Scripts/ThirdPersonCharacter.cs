@@ -65,7 +65,9 @@ public class ThirdPersonCharacter : MonoBehaviour
         colliders = new Collider[20];
         hits = new RaycastHit[20];
         bCarryIKActive = false;
-        
+        lastFramePosition=Vector3.zero;
+
+
     }
 
     public void Move(Vector3 move, bool climb, bool jump,bool carry)
@@ -124,7 +126,9 @@ public class ThirdPersonCharacter : MonoBehaviour
 
 
         RecordFloatData("deltaTime", Time.deltaTime);
-        RecordVectorData("deltaDisplacement", transform.position- lastFramePosition);
+        Vector2 tempVector2 = new Vector2(transform.position.x - lastFramePosition.x, transform.position.z - lastFramePosition.z);
+        RecordFloatData("deltaHorizontalDisplacement", tempVector2.magnitude);
+        RecordFloatData("deltaVerticalDisplacement", transform.position.y - lastFramePosition.y);
 
         if (tempBehaviour != null)
         {
@@ -368,9 +372,7 @@ public class ThirdPersonCharacter : MonoBehaviour
             return;
         switch (name)
         {
-            case "deltaDisplacement":
-                tempBehaviour.deltaDisplacement = param;
-                break;
+         
         }
         
     }
@@ -418,6 +420,12 @@ public class ThirdPersonCharacter : MonoBehaviour
                 break;
             case "jumpLeg":
                 tempBehaviour.jumpLeg = param;
+                break;
+            case "deltaHorizontalDisplacement":
+                tempBehaviour.deltaHorizontalDisplacement = param;
+                break;
+            case "deltaVerticalDisplacement":
+                tempBehaviour.deltaVerticalDisplacement = param;
                 break;
         }
 
