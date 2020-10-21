@@ -20,6 +20,8 @@ public class ThirdPersonUserControl : MonoBehaviour
     [SerializeField] GameObject interactableBox;
     [SerializeField] SphereCollider bottomTrigger;
     public bool CanCarry;
+    public bool CanTrainMove=false;
+    public bool CanExChange;
 
     private void Start()
     {
@@ -79,6 +81,7 @@ public class ThirdPersonUserControl : MonoBehaviour
                 Vector3 boxPosition = interactableBox.transform.position + transform.forward * 0.5f;
                 GameObject obj = GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
                 obj.AddComponent<Rigidbody>();
+                obj.GetComponent<Rigidbody>().mass = 100f;//œ‰◊”÷ÿ¡ø
                 obj.AddComponent<BoxCollider>();
                 interactableBox.SetActive(false);
 
