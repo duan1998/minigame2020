@@ -109,7 +109,8 @@ public class RecordManager : MonoBehaviour
             // 播放缓冲里的第一个
             curPlayingBufferIndex = 0;
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
-
+            bPlaying = true;
+            ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
         }
         else
         {
@@ -125,8 +126,7 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
         }
-        bPlaying = true;
-        ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
+       
     }
 
     public void PlayBackRecord()
@@ -146,6 +146,8 @@ public class RecordManager : MonoBehaviour
             // 播放缓冲里的第一个
             curPlayingBufferIndex = 0;
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack);
+            bPlaying = true;
+            ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
         }
         else
         {
@@ -161,7 +163,7 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, true));
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack);
         }
-        ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
+        
 
     }
 
