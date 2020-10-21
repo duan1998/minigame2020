@@ -148,6 +148,21 @@ public class GhostCharacter : MonoBehaviour
 
         }
     }
+
+    public void PutDownBox()
+    {
+        if (bCarring)
+        {
+            bCarring = false;
+            //放下箱子
+            Vector3 boxPosition = interactableBox.transform.position + transform.forward * 0.5f;
+            GameObject obj = GameObject.Instantiate(interactableBox, boxPosition, interactableBox.transform.rotation);
+            obj.AddComponent<Rigidbody>();
+            obj.AddComponent<BoxCollider>();
+            interactableBox.SetActive(false);
+        }
+       
+    }
     void SetTransform(Behaviour behaviour)
     {
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);

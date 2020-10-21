@@ -175,7 +175,9 @@ public class RecordManager : MonoBehaviour
         if(curPlayingBufferIndex>=willPlayRecordBuffer.Count)
         {
             bPlaying = false;
+            ghost.PutDownBox(); 
             ghost.gameObject.SetActive(false);
+            
             willPlayRecordBuffer.Clear();
         }
         else
