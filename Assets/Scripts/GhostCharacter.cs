@@ -152,7 +152,8 @@ public class GhostCharacter : MonoBehaviour
         Vector3 targetPosition = Vector3.zero;
         //targetPosition = playerTrans.forward * behaviour.deltaDisplacement.z + playerTrans.up * behaviour.deltaDisplacement.y + playerTrans.right * behaviour.x;
         targetPosition = transform.position;
-        targetPosition.y += behaviour.deltaDisplacement.y;
+        //targetPosition.y += behaviour.deltaDisplacement.y;
+        targetPosition += behaviour.deltaDisplacement;
         transform.position = targetPosition;
 
         transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + behaviour.deltaYAxis, transform.eulerAngles.z);
@@ -191,4 +192,10 @@ public class GhostCharacter : MonoBehaviour
     }
     void AnimationClimbToTopStart() { }
     void AnimationClimbToTopEnd() { }
+
+    public void OnAnimatorMove()
+    {
+        
+    }
+
 }

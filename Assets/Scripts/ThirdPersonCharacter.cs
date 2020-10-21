@@ -280,8 +280,12 @@ public class ThirdPersonCharacter : MonoBehaviour
         m_Animator.applyRootMotion = false;
         RecordBoolData("applyRootMotion", false);
 
-
-        transform.position += move * m_climbSpeed * Time.fixedDeltaTime;
+        if (!Mathf.Approximately(move.y,0))
+        {
+            float deltaYAxis = m_climbSpeed * Time.fixedDeltaTime;
+            transform.position = new Vector3(transform.position.x, deltaYAxis+transform.position.y,transform.position.z);
+        }
+       
 
         Physics.OverlapSphereNonAlloc(bottomTrigger.transform.position, bottomTrigger.radius, colliders, -1, QueryTriggerInteraction.Collide);
         if (colliders[0] != null)
