@@ -129,7 +129,7 @@ public class ThirdPersonUserControl : MonoBehaviour
 
         if (bClimb)
         {
-            m_Move = v * Vector3.up + h * Vector3.right;
+            m_Move = v * Vector3.up + h * Vector3.left;
         }
         else
         {

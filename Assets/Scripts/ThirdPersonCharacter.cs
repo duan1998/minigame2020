@@ -77,7 +77,7 @@ public class ThirdPersonCharacter : MonoBehaviour
         {
             tempBehaviour = new Behaviour();
         }
-        
+
         if (move.magnitude > 1f) move.Normalize();
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
