@@ -4151,9 +4151,9 @@ Cloth:
   m_Enabled: 1
   m_StretchingStiffness: 1
   m_BendingStiffness: 0
-  m_UseTethers: 0
-  m_UseGravity: 0
-  m_Damping: 0
+  m_UseTethers: 1
+  m_UseGravity: 1
+  m_Damping: 0.55
   m_ExternalAcceleration: {x: 0, y: 0, z: 0}
   m_RandomAcceleration: {x: 0, y: 0, z: 0}
   m_WorldVelocityScale: 0.5
@@ -6517,7 +6517,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431603757}
-  m_LocalRotation: {x: -0.027081463, y: 0.13431856, z: 0.0036722037, w: 0.9905613}
+  m_LocalRotation: {x: -0.027081463, y: 0.13431855, z: 0.003672204, w: 0.9905613}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12057,9 +12057,9 @@ Cloth:
   m_Enabled: 1
   m_StretchingStiffness: 1
   m_BendingStiffness: 0
-  m_UseTethers: 0
-  m_UseGravity: 0
-  m_Damping: 0
+  m_UseTethers: 1
+  m_UseGravity: 1
+  m_Damping: 0.55
   m_ExternalAcceleration: {x: 0, y: 0, z: 0}
   m_RandomAcceleration: {x: 0, y: 0, z: 0}
   m_WorldVelocityScale: 0.5
@@ -12299,7 +12299,7 @@ Cloth:
   m_SphereColliders: []
   m_SelfCollisionDistance: 0
   m_SelfCollisionStiffness: 0.2
-  m_SelfAndInterCollisionIndices: 1200000013000000150000001b0000002000000022000000230000002e0000002f000000300000003100000032000000330000003a0000003b000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f0000005300000054000000550000005b00000066000000
+  m_SelfAndInterCollisionIndices: 120000001300000015000000180000001b0000001f000000200000002200000023000000260000002700000028000000290000002a0000002b0000002e0000002f00000030000000310000003200000033000000340000003500000036000000370000003a0000003b000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000530000005400000055000000580000005b000000660000006a0000006b0000006d0000006f000000
   m_VirtualParticleWeights:
   - {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   - {x: 0.6666667, y: 0.16666667, z: 0.16666667}
@@ -12707,7 +12707,7 @@ Cloth:
   m_BendingStiffness: 0
   m_UseTethers: 1
   m_UseGravity: 1
-  m_Damping: 0
+  m_Damping: 0.55
   m_ExternalAcceleration: {x: 0, y: 0, z: 0}
   m_RandomAcceleration: {x: 0, y: 0, z: 0}
   m_WorldVelocityScale: 0.5
