@@ -43,7 +43,7 @@ public class GameUI : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.G)&&!RecordManager.Instance.bRecording)
+        if (Input.GetMouseButtonDown(0)&&!RecordManager.Instance.bRecording)
         {
             StartRecord();
         }

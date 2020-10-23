@@ -190,12 +190,12 @@ public class RecordManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        if(Input.GetMouseButtonDown(1))
         {
             // 正放
             PlayRecord();
         }
-        else if(canBackPlay&&Input.GetKeyDown(KeyCode.T))
+        else if(canBackPlay&&Input.GetKeyDown(KeyCode.R))
         {
             // 倒放
             PlayBackRecord();
