@@ -102,7 +102,8 @@ public class RecordManager : MonoBehaviour
         if (willPlayRecordBuffer.Count <= 0)
         {
             ghost.transform.position = playerCharacterTrans.position;
-            ghost.transform.rotation = playerCharacterTrans.rotation;
+           
+            ghost.transform.forward = Vector3.Scale(Camera.main.transform.forward,new Vector3(1,0,1)).normalized;
             ghost.gameObject.SetActive(true);
             willPlayRecordBuffer.Clear();
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex,false));
@@ -215,6 +216,7 @@ public class RecordManager : MonoBehaviour
             // 录制
             //StartRecording();
         }
+        
     }
 
     // 0 1 2
