@@ -11,14 +11,14 @@ public class RecordManager : MonoBehaviour
     {
         public int recordIndex;
         public bool bBack;
-        public RecordModeItem(int index,bool bBack)
+        public RecordModeItem(int index, bool bBack)
         {
             recordIndex = index;
             this.bBack = bBack;
         }
     }
 
-    [Range(1,3)]
+    [Range(1, 3)]
     public int maxSaveRecordCount;
 
     public Transform playerCharacterTrans;
@@ -29,7 +29,7 @@ public class RecordManager : MonoBehaviour
     private static RecordManager instance;
     public static RecordManager Instance
     {
-        get=>instance;
+        get => instance;
     }
 
     [SerializeField]
@@ -90,11 +90,11 @@ public class RecordManager : MonoBehaviour
         curRecordingRecord = null;
     }
 
-   
+
     public bool bPlaying = false;
     public void PlayRecord()
     {
-        if (bRecording || records[curSelectRecordIndex]==null || records[curSelectRecordIndex].FrameCount==0)
+        if (bRecording || records[curSelectRecordIndex] == null || records[curSelectRecordIndex].FrameCount == 0)
         {
             mainUI.Wrong(curSelectRecordIndex);
             return;
@@ -102,11 +102,11 @@ public class RecordManager : MonoBehaviour
         if (willPlayRecordBuffer.Count <= 0)
         {
             ghost.transform.position = playerCharacterTrans.position;
-           
-            ghost.transform.forward = Vector3.Scale(Camera.main.transform.forward,new Vector3(1,0,1)).normalized;
+
+            ghost.transform.forward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
             ghost.gameObject.SetActive(true);
             willPlayRecordBuffer.Clear();
-            willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex,false));
+            willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
             // 播放缓冲里的第一个
             curPlayingBufferIndex = 0;
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
@@ -115,9 +115,9 @@ public class RecordManager : MonoBehaviour
         }
         else
         {
-            for(int i=0;i<willPlayRecordBuffer.Count;i++)
+            for (int i = 0; i < willPlayRecordBuffer.Count; i++)
             {
-                if (willPlayRecordBuffer[i].recordIndex== curSelectRecordIndex)
+                if (willPlayRecordBuffer[i].recordIndex == curSelectRecordIndex)
                 {
                     // 已经在播放缓冲里了，不能再播放
                     mainUI.NoticePlayingOrHasWouldPlay(curSelectRecordIndex);
@@ -127,7 +127,7 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
         }
-       
+
     }
 
     public void PlayBackRecord()
@@ -137,10 +137,11 @@ public class RecordManager : MonoBehaviour
             mainUI.Wrong(curSelectRecordIndex);
             return;
         }
-        if (willPlayRecordBuffer.Count<=0)
+        if (willPlayRecordBuffer.Count <= 0)
         {
             ghost.transform.position = playerCharacterTrans.position;
-            ghost.transform.rotation = playerCharacterTrans.rotation;
+            ghost.transform.forward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+
             ghost.gameObject.SetActive(true);
             willPlayRecordBuffer.Clear();
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, true));
@@ -164,21 +165,21 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, true));
             mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack);
         }
-        
+
 
     }
 
 
-    void PlayOver()
+    public void PlayOver()
     {
         mainUI.RefreshRecordStatus(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex, RecordStatus.Record);
         curPlayingBufferIndex++;
-        if(curPlayingBufferIndex>=willPlayRecordBuffer.Count)
+        if (curPlayingBufferIndex >= willPlayRecordBuffer.Count)
         {
             bPlaying = false;
-            ghost.PutDownBox(); 
+            ghost.PutDownBox();
             ghost.gameObject.SetActive(false);
-            
+
             willPlayRecordBuffer.Clear();
         }
         else
@@ -191,33 +192,62 @@ public class RecordManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             // 正放
             PlayRecord();
         }
-        else if(canBackPlay&&Input.GetKeyDown(KeyCode.R))
+        else if (canBackPlay && Input.GetKeyDown(KeyCode.R))
         {
             // 倒放
             PlayBackRecord();
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             // 向左选中
             SelectPrev();
         }
-        else if(Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E))
         {
             // 向右选中
             SelectNext();
         }
-        if(Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            // 录制
-            //StartRecording();
+            // 预览
+            PreviewGhostPosition(false);
         }
-        
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            // 预览
+            PreviewGhostPosition(true);
+        }
+
     }
+    private void PreviewGhostPosition(bool bBack)
+    {
+        if (records[curSelectRecordIndex]==null|| records[curSelectRecordIndex].FrameCount <= 0) return;
+        ghost.transform.position = playerCharacterTrans.position;
+
+        ghost.transform.forward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        ghost.gameObject.SetActive(true);
+        for (int i = 0; i < records[curSelectRecordIndex].FrameCount; i++)
+        {
+            ghost.transform.rotation = Quaternion.Euler(ghost.transform.eulerAngles.x, ghost.transform.eulerAngles.y + records[curSelectRecordIndex][i].deltaYAxis, ghost.transform.eulerAngles.z);
+
+            Vector3 deltaOffset = ghost.transform.forward * records[curSelectRecordIndex][i].deltaHorizontalDisplacement;
+            deltaOffset.y = records[curSelectRecordIndex][i].deltaVerticalDisplacement;
+            if (bBack)
+            {
+                ghost.transform.position -= deltaOffset;
+            }
+            else
+            {
+                ghost.transform.position += deltaOffset;
+            }
+        }
+    }
+
 
     // 0 1 2
     private void SelectNext()

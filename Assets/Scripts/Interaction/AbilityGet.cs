@@ -21,7 +21,7 @@ public class AbilityGet : MonoBehaviour
         if (isLock) return;
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Shadow") {
             if (AbilityType == 0) {
-                panel.SetActive(false);
+                GameObject.Find("RecordManager").GetComponent<RecordManager>().RecordCountLevelUp();
             }
             else
                 if (AbilityType == 1) {
