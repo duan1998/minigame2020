@@ -169,7 +169,7 @@ public class RecordManager : MonoBehaviour
     }
 
 
-    void PlayOver()
+    public void PlayOver()
     {
         mainUI.RefreshRecordStatus(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex, RecordStatus.Record);
         curPlayingBufferIndex++;
