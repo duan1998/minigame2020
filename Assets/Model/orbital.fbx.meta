@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: orbital
     second: {fileID: 2100000, guid: eccc636cc456b494a9757a00798782dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: orbital-1
+    second: {fileID: 2100000, guid: d91b7fac794b09e48a6683ab4783e3e6, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -50,7 +55,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1

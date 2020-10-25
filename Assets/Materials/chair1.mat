@@ -52,6 +52,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NorTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -65,8 +69,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_53E354BC: 1
+    - Vector1_AD9275A7: 15
+    - Vector1_CB15EF9D: 0
+    - Vector1_EDA8DFFA: 0
     - _AlphaClip: 0
     - _Blend: 0
+    - _Bool: 1
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
@@ -94,6 +103,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FColor: {r: 0, g: 8.835222, b: 28.51895, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
 --- !u!114 &4383416070037188655
 MonoBehaviour:
