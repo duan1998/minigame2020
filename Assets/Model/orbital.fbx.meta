@@ -3,7 +3,12 @@ guid: 0bb8ac56a264953448d994785889f9e6
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: orbital
+    second: {fileID: 2100000, guid: eccc636cc456b494a9757a00798782dd, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
