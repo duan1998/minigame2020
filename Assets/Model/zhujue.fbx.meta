@@ -100,7 +100,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -280,122 +280,122 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: group
       parentName: zhujue(Clone)
-      position: {x: -0, y: 0.0024875689, z: 0.00007653786}
+      position: {x: -0, y: 0.24875689, z: 0.007653786}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: polySurface35
       parentName: group
-      position: {x: -0, y: -0.0024875689, z: -0.00007653786}
+      position: {x: -0, y: -0.24875689, z: -0.007653786}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: polySurface36
       parentName: group
-      position: {x: -0, y: -0.0024875689, z: -0.00007653786}
+      position: {x: -0, y: -0.24875689, z: -0.007653786}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: -0.99978316, y: 1, z: 1}
     - name: polySurface33
       parentName: group
-      position: {x: -0, y: -0.0024875689, z: -0.00007653786}
+      position: {x: -0, y: -0.24875689, z: -0.007653786}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: pCylinder2
       parentName: group
-      position: {x: 0.00025884298, y: 0.001082824, z: 0.00024024595}
+      position: {x: 0.025884299, y: 0.108282395, z: 0.024024595}
       rotation: {x: 0.4997567, y: -0, z: -0, w: 0.8661658}
       scale: {x: 1.0657679, y: 1.0657679, z: 1.0657679}
     - name: polySurface38
       parentName: group
-      position: {x: -0, y: -0.0024875689, z: -0.00007653786}
+      position: {x: -0, y: -0.24875689, z: -0.007653786}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: pelvis
       parentName: zhujue(Clone)
-      position: {x: -0, y: 0.0024875689, z: -0.00006290295}
+      position: {x: -0, y: 0.24875689, z: -0.006290295}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: leftthigh
       parentName: pelvis
-      position: {x: -0.00026101997, y: -0.00016760176, z: 0}
+      position: {x: -0.026101997, y: -0.016760176, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: human:joint9
       parentName: leftthigh
-      position: {x: -0.00004137409, y: -0.0010676906, z: 0.00013812124}
+      position: {x: -0.004137409, y: -0.106769055, z: 0.013812124}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: human:joint10
       parentName: human:joint9
-      position: {x: -0.000037889175, y: -0.0010132887, z: -0.000048571666}
+      position: {x: -0.0037889176, y: -0.10132887, z: -0.0048571667}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: rightthigh
       parentName: pelvis
-      position: {x: 0.00026101997, y: -0.00016759905, z: -4.5753464e-11}
+      position: {x: 0.026101997, y: -0.016759904, z: -0.0000000045753463}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: human:joint15
       parentName: rightthigh
-      position: {x: 0.000041374, y: -0.00106769, z: 0.00013812128}
+      position: {x: 0.0041374, y: -0.106768996, z: 0.0138121275}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: human:joint16
       parentName: human:joint15
-      position: {x: 0.000037889007, y: -0.0010132921, z: -0.000048571703}
+      position: {x: 0.0037889008, y: -0.101329215, z: -0.0048571704}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: spine
       parentName: pelvis
-      position: {x: -0, y: 0.00054232264, z: 0.000035256195}
+      position: {x: -0, y: 0.054232262, z: 0.0035256194}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: shoulderleft
       parentName: spine
-      position: {x: -0.00020409729, y: 0.0005714821, z: 0.00019829192}
+      position: {x: -0.02040973, y: 0.05714821, z: 0.019829191}
       rotation: {x: -0, y: 0.23556618, z: -0, w: 0.9718583}
       scale: {x: 1, y: 1, z: 1}
     - name: leftupperarm
       parentName: shoulderleft
-      position: {x: -0.0002, y: 0, z: -0.0002}
+      position: {x: -0.02, y: 0, z: -0.02}
       rotation: {x: 0.011650711, y: -0.18305549, z: -0.022621257, w: 0.98277324}
       scale: {x: 1, y: 1, z: 1}
     - name: leftforearm
       parentName: leftupperarm
-      position: {x: -0.0006968478, y: -0.000040699793, z: -0.000029549325}
+      position: {x: -0.06968478, y: -0.0040699793, z: -0.0029549324}
       rotation: {x: 0.0037332047, y: -0.055917293, z: -0.008531888, w: 0.99839205}
       scale: {x: 1, y: 1, z: 1}
     - name: lefthand
       parentName: leftforearm
-      position: {x: -0.00060681143, y: -0.00004814781, z: 0.000050040497}
+      position: {x: -0.060681142, y: -0.004814781, z: 0.0050040497}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: shoulderright
       parentName: spine
-      position: {x: 0.00020409698, y: 0.0005714783, z: 0.00019829196}
+      position: {x: 0.020409698, y: 0.057147827, z: 0.019829197}
       rotation: {x: -0, y: -0.23556618, z: -0, w: 0.9718583}
       scale: {x: 1, y: 1, z: 1}
     - name: rightupperarm1
       parentName: shoulderright
-      position: {x: 0.0002, y: 0, z: -0.0002}
+      position: {x: 0.02, y: 0, z: -0.02}
       rotation: {x: 0.011650625, y: 0.18305562, z: 0.022621086, w: 0.9827732}
       scale: {x: 1, y: 1, z: 1}
     - name: rightupperarm
       parentName: rightupperarm1
-      position: {x: 0.00069685304, y: -0.000040699993, z: -0.000029549396}
+      position: {x: 0.0696853, y: -0.0040699993, z: -0.0029549396}
       rotation: {x: 0.003732772, y: 0.055916928, z: 0.0085282475, w: 0.99839205}
       scale: {x: 1, y: 1, z: 1}
     - name: righthand
       parentName: rightupperarm
-      position: {x: 0.00060681003, y: -0.00004814, z: 0.000050040537}
+      position: {x: 0.060681004, y: -0.004814, z: 0.0050040535}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: neck
       parentName: spine
-      position: {x: -0, y: 0.0006902041, z: -0.000046934878}
+      position: {x: -0, y: 0.069020405, z: -0.0046934877}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: head
       parentName: neck
-      position: {x: -0, y: 0.00035720185, z: 0.000114306255}
+      position: {x: -0, y: 0.035720184, z: 0.011430626}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
@@ -405,7 +405,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.01
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 1
