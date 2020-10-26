@@ -45,6 +45,7 @@ public class GameUI : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)&&!RecordManager.Instance.bRecording)
         {
+            if (GameObject.Find("DialogPanel") != null) return;
             StartRecord();
         }
         if(Input.GetKeyDown(KeyCode.F1)&&!RecordManager.Instance.bPlaying)

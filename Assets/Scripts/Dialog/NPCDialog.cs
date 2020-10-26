@@ -9,12 +9,16 @@ public class NPCDialog : MonoBehaviour
     public struct Paragraph {
         public bool isPlayerA;
         public string text;
+        public Paragraph(bool boolean,string text) {
+            isPlayerA = boolean;
+            this.text = text;
+        }
     }
     [SerializeField]
     public string playerAName;
     public string playerBName;
-    public Image playerAImage;
-    public Image playerBImage;
+    public Sprite playerAImage;
+    public Sprite playerBImage;
     [SerializeField]
     public List<Paragraph> paragraphList;
     [SerializeField]
@@ -22,6 +26,7 @@ public class NPCDialog : MonoBehaviour
     [SerializeField]
     public List<Paragraph> BSideParagraph;
     public string usualText;
+    public string tipText;
     public bool haveBranch;
     public bool playAfterChosen;
     public string optionAText;
@@ -32,6 +37,8 @@ public class NPCDialog : MonoBehaviour
     public bool isFinish;
     private int textIndex;
     public bool isPlayParagraph;
+    public bool haveTip;
+    public bool isFianl;
 
     Tweener textShow;
 
@@ -42,6 +49,7 @@ public class NPCDialog : MonoBehaviour
     public Image PanelPlayerB;
     public Button OptionA;
     public Button OptionB;
+    public GameObject Tip;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,8 +85,10 @@ public class NPCDialog : MonoBehaviour
             Debug.Log("PlayerOut!");
         }
     }
-    void DialogStart() {//开始播放
+    public void DialogStart() {//开始播放
         Time.timeScale = 0f;
+        PanelPlayerA.sprite = playerAImage;
+        PanelPlayerB.sprite = playerBImage;
         dialogPanel.SetActive(true);
         isFinish = false;
         textIndex = 0;
@@ -88,11 +98,20 @@ public class NPCDialog : MonoBehaviour
 
         if (textIndex == paragraphList.Count) {
             if (!haveBranch||isChosen) {//如果没有分支或已选择过
+                paragraphList.Clear();
+                paragraphList.Add(new Paragraph(false,usualText));
                 PlayFinish();
             }
             else {
+                
                 OptionA.gameObject.SetActive(true);
                 OptionB.gameObject.SetActive(true);
+                OptionA.GetComponent<Button>().onClick.RemoveAllListeners();
+                OptionB.GetComponent<Button>().onClick.RemoveAllListeners();
+
+                OptionA.GetComponent<Button>().onClick.AddListener(delegate { this.Choose(true); });
+                OptionB.GetComponent<Button>().onClick.AddListener(delegate { this.Choose(false); });
+
                 OptionA.transform.Find("Text").GetComponent<Text>().text = optionAText;
                 OptionB.transform.Find("Text").GetComponent<Text>().text = optionBText;
                 Cursor.lockState = CursorLockMode.None;
@@ -113,7 +132,7 @@ public class NPCDialog : MonoBehaviour
                 PanelPlayerB.DOFade(1f, 0.1f).SetUpdate(true);
                 dialogName.text = playerBName;
             }
-            textShow = dialogText.DOText(paragraphList[textIndex].text, paragraphList[textIndex].text.Length * 0.2f)
+            textShow = dialogText.DOText(paragraphList[textIndex].text, paragraphList[textIndex].text.Length * 0.1f)
                 .OnComplete(ParagraphOver).SetUpdate(true).SetEase(Ease.Linear);
         }
     }
@@ -132,9 +151,10 @@ public class NPCDialog : MonoBehaviour
         Time.timeScale = 1;
         isFinish = true;
         dialogPanel.SetActive(false);
-    }
-    public void ChooseASide() {
-
+        if (haveTip) {
+            Tip.SetActive(true);
+            Tip.GetComponent<TipController>().PlayText(tipText);
+        }
     }
     public void Choose(bool ASide) {
         if (ASide) {
@@ -147,6 +167,12 @@ public class NPCDialog : MonoBehaviour
         OptionB.gameObject.SetActive(false);
         isChosen = true;
         textIndex = 0;
+        if (isFianl) {
+            GameObject.Find("FinalTrigger").GetComponent<FinishLevel>().ChangeCG();
+            dialogPanel.GetComponent<Image>().DOFade(0, 0.1f).SetUpdate(true);
+            PanelPlayerA.gameObject.SetActive(false);
+            PanelPlayerB.gameObject.SetActive(false);
+        }
         if (playAfterChosen) {
             ParagraphStart();
         }

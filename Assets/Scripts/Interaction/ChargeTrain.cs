@@ -4,11 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 public class ChargeTrain : MonoBehaviour
 {
-    public float m_moveTime = 2f;
-    public float m_rotationZ = 0f;
-    public bool IsTemporary = false;
     public int numsOfCharactor;
-    private float m_initialRotationZ;
     // Start is called before the first frame update
     void Start()
     {
