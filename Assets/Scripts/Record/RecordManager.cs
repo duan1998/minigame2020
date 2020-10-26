@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class RecordManager : MonoBehaviour
 {
@@ -72,6 +73,7 @@ public class RecordManager : MonoBehaviour
         canBackPlay = false;
         // 默认状态
         mainUI.Set(maxSaveRecordCount);
+       // GameObject.Find("RadioTriggerTimeLine/CM vcam1").GetComponent<Playable>().Play();
     }
 
     public bool StartRecording()

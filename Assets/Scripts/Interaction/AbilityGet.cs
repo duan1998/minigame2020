@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Playables;
+
 public class AbilityGet : MonoBehaviour
 {
     public int AbilityType = 1;
@@ -23,6 +25,7 @@ public class AbilityGet : MonoBehaviour
         if (isLock) return;
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Shadow") {
             WhitePanel.SetActive(true);
+
             WhitePanel.GetComponent<Image>().DOFade(1, 1f).OnComplete(()=> {
                 gameObject.SetActive(false);
                 WhitePanel.GetComponent<Image>().DOFade(0, 1f).OnComplete(Ability);
