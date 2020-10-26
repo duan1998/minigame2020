@@ -194,11 +194,13 @@ public class RecordManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            ghost.tag = "Shadow";
             // 正放
             PlayRecord();
         }
         else if (canBackPlay && Input.GetKeyDown(KeyCode.R))
         {
+            ghost.tag = "Shadow";
             // 倒放
             PlayBackRecord();
         }
@@ -214,11 +216,13 @@ public class RecordManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
+            ghost.tag = "Untagged";
             // 预览
             PreviewGhostPosition(false);
         }
         if(Input.GetKeyDown(KeyCode.H))
         {
+            ghost.tag = "Untagged";
             // 预览
             PreviewGhostPosition(true);
         }
