@@ -35,13 +35,17 @@ public class NPCDialog : MonoBehaviour
     private bool isInRange;
     public bool isChosen;
     public bool isFinish;
-    private int textIndex;
+    public int textIndex;
     public bool isPlayParagraph;
     public bool haveTip;
+    public bool isNPC2;
     public bool isFianl;
+    public bool isBoom;
+    public bool needExchange;
 
     Tweener textShow;
 
+    public GameObject blackPanel;
     public GameObject dialogPanel;
     public Text dialogName;
     public Text dialogText;
@@ -100,7 +104,7 @@ public class NPCDialog : MonoBehaviour
             if (!haveBranch||isChosen) {//如果没有分支或已选择过
                 paragraphList.Clear();
                 paragraphList.Add(new Paragraph(false,usualText));
-                PlayFinish();
+                 PlayFinish();
             }
             else {
                 
@@ -148,19 +152,39 @@ public class NPCDialog : MonoBehaviour
 
     }
     void PlayFinish() {
-        Time.timeScale = 1;
-        isFinish = true;
-        dialogPanel.SetActive(false);
-        if (haveTip) {
-            Tip.SetActive(true);
-            Tip.GetComponent<TipController>().PlayText(tipText);
-        }
+        int value = 1;
+        DOTween.To(() => value, x => value = x, 5, 0f).SetUpdate(true).OnComplete(() => {
+            Time.timeScale = 1;
+            if (isBoom) {
+                GameObject.Find("Canvas").transform.Find("BlackPanel").gameObject.GetComponent<Image>().DOFade(0, 0f).OnComplete(
+                    ()=> { GameObject.Find("Canvas").transform.Find("BlackPanel").gameObject.SetActive(false); });
+            }
+            if (needExchange) {
+                GameObject.Find("RecordManager").GetComponent<RecordManager>().canBackPlay = true;
+            }
+            isFinish = true;
+            dialogPanel.SetActive(false);
+            if (haveTip) {
+                Tip.SetActive(true);
+                Tip.GetComponent<TipController>().PlayText(tipText);
+            }
+        });
     }
     public void Choose(bool ASide) {
         if (ASide) {
             paragraphList = ASideParagraph;
         }
         else paragraphList = BSideParagraph;
+        if (isNPC2) {
+            if (ASide) {
+                GameObject.Find("BothButton1").transform.Find("Cube").GetComponent<BothButton>().isASide = true;
+                GameObject.Find("BothButton2").transform.Find("Cube").GetComponent<BothButton>().isASide = true;
+            }
+            else {
+                GameObject.Find("BothButton1").transform.Find("Cube").GetComponent<BothButton>().isASide = false;
+                GameObject.Find("BothButton2").transform.Find("Cube").GetComponent<BothButton>().isASide = false;
+            }
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         OptionA.gameObject.SetActive(false);

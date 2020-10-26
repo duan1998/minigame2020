@@ -22,6 +22,7 @@ public class ChargeTrain : MonoBehaviour
             numsOfCharactor++;
             transform.parent.DOScaleY(0.5f, 0.1f);
             GameObject.Find("ThirdPersonController").GetComponent<ThirdPersonUserControl>().CanTrainMove = true;
+
         }
     }
     private void OnTriggerExit(Collider other) {
