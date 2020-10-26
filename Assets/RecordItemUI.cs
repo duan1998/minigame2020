@@ -14,89 +14,76 @@ public enum RecordStatus
 
 public class RecordItemUI : MonoBehaviour
 {
-    GameObject recordingLabelObj;
-    GameObject playingNormalLabelObj;
-    GameObject playingBackLabelObj;
-    GameObject noRecordLabelObj;
-    GameObject recordLabelObj;
+    public Animator recorderAnimator;
 
-    Animator animator;
+    public Image recordImageBar;
+    public Image backPlayBar;
+    public Image normalPlayBar;
 
-    private void Awake()
+    private void Start()
     {
-        recordingLabelObj=transform.Find("RecordingLabel").gameObject;
-        playingNormalLabelObj = transform.Find("PlayingNormalLabel").gameObject;
-        playingBackLabelObj = transform.Find("PlayingBackLabel").gameObject;
-        noRecordLabelObj = transform.Find("NoRecordLabel").gameObject;
-        recordLabelObj= transform.Find("RecordLabel").gameObject;
-        animator = GetComponent<Animator>();
+        recordImageBar.fillAmount = 0;
+        backPlayBar.fillAmount = 0;
+        normalPlayBar.fillAmount = 0;
     }
 
-    public void Refresh(RecordStatus status)
+    public void Refresh(RecordStatus status,float fillAmount)
     {
-        switch(status)
+        switch (status)
         {
             case RecordStatus.NoRecord:
-                recordingLabelObj.SetActive(false);
-                playingNormalLabelObj.SetActive(false);
-                playingBackLabelObj.SetActive(false);
-                recordLabelObj.SetActive(false);
-                noRecordLabelObj.SetActive(true);
+                recordImageBar.fillAmount = 0;
+                backPlayBar.fillAmount = 0;
+                normalPlayBar.fillAmount = 0;
                 break;
             case RecordStatus.Recording:
-                recordingLabelObj.SetActive(true);
-                playingNormalLabelObj.SetActive(false);
-                playingBackLabelObj.SetActive(false);
-                recordLabelObj.SetActive(false);
-                noRecordLabelObj.SetActive(false);
+                recordImageBar.fillAmount = fillAmount;
+                backPlayBar.fillAmount = 0;
+                normalPlayBar.fillAmount = 0;
                 break;
             case RecordStatus.PlayingNormal:
-                recordingLabelObj.SetActive(false);
-                playingNormalLabelObj.SetActive(true);
-                playingBackLabelObj.SetActive(false);
-                recordLabelObj.SetActive(false);
-                noRecordLabelObj.SetActive(false);
+                recordImageBar.fillAmount = 1;
+                backPlayBar.fillAmount = 0;
+                normalPlayBar.fillAmount = fillAmount;
+
                 break;
             case RecordStatus.PlayingBack:
-                recordingLabelObj.SetActive(false);
-                playingNormalLabelObj.SetActive(false);
-                playingBackLabelObj.SetActive(true);
-                recordLabelObj.SetActive(false);
-                noRecordLabelObj.SetActive(false);
+                recordImageBar.fillAmount = 1;
+                backPlayBar.fillAmount = fillAmount;
+                normalPlayBar.fillAmount = 0;
                 break;
             case RecordStatus.Record:
-                recordingLabelObj.SetActive(false);
-                playingNormalLabelObj.SetActive(false);
-                playingBackLabelObj.SetActive(false);
-                recordLabelObj.SetActive(true);
-                noRecordLabelObj.SetActive(false);
+                recordImageBar.fillAmount = 1;
+                backPlayBar.fillAmount = 0;
+                normalPlayBar.fillAmount = 0;
                 break;
 
         }
     }
 
+ 
     public void PlayWrongAnimatoin()
     {
-        animator.Play("Wrong", 0, 0);
+        recorderAnimator.Play("Wrong", 0, 0);
     }
     public void PlayEnlargeAnimation()
     {
-        animator.Play("Enlarge", 0, 0);
+        recorderAnimator.Play("Enlarge", 0, 0);
     }
     public void PlayShrinkAnimation()
     {
-        animator.Play("Shrink", 0, 0);
+        recorderAnimator.Play("Shrink", 0, 0);
     }
-    public void Init(RecordStatus status)
+    public void Init()
     {
-        Refresh(status);
+        Refresh(RecordStatus.NoRecord, 0);
     }
-    public void PlayNoticeAnimation()
-    {
-        if (playingBackLabelObj.activeSelf||playingNormalLabelObj.activeSelf)
-        {
-            animator.Play("NoticePlaying", 0, 0);
-        }
+    //public void PlayNoticeAnimation()
+    //{
+    //    if (playingBackLabelObj.activeSelf||playingNormalLabelObj.activeSelf)
+    //    {
+    //        animator.Play("NoticePlaying", 0, 0);
+    //    }
 
-    }
+    //}
 }

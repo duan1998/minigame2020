@@ -17,20 +17,17 @@ public class MainUI : MonoBehaviour
 
     public RecordItemUI[] recordItems;
 
-    public void Set(RecordStatus[] data)
+    public void Set(int num)
     {
-        int minValue = Mathf.Min(data.Length, recordItems.Length);
-
-        for (int i=0;i< minValue; i++)
+        for (int i = 0; i < num; i++)
         {
             recordItems[i].gameObject.SetActive(true);
-            recordItems[i].Init(data[i]);
+            recordItems[i].Init();
         }
-        for (int  i=minValue;i<recordItems.Length;i++)
+        for(int i=num;i<recordItems.Length;i++)
         {
             recordItems[i].gameObject.SetActive(false);
         }
-
         recordItems[0].PlayEnlargeAnimation();
     }
     
@@ -43,6 +40,7 @@ public class MainUI : MonoBehaviour
 
     public void FocusNext(int idx)
     {
+        print("willCur" + idx);
         if (idx >= recordItems.Length || idx < 0) return;
         if (idx - 1 < 0)
             return;
@@ -51,6 +49,7 @@ public class MainUI : MonoBehaviour
     }
     public void FocusPrev(int idx)
     {
+        print("willCur" + idx);
         if (idx >= recordItems.Length || idx < 0) return;
         if (idx + 1 >= recordItems.Length)
             return;
@@ -58,16 +57,16 @@ public class MainUI : MonoBehaviour
         recordItems[idx].PlayEnlargeAnimation();
     }
 
-    // 提醒正在播放或者待播放
-    public void NoticePlayingOrHasWouldPlay(int idx)
+    //// 提醒正在播放或者待播放
+    //public void NoticePlayingOrHasWouldPlay(int idx)
+    //{
+    //    if (idx >= recordItems.Length || idx < 0) return;
+    //    recordItems[idx].PlayNoticeAnimation();
+    //}
+    public void RefreshRecordStatus(int idx,RecordStatus status,float progress)
     {
         if (idx >= recordItems.Length || idx < 0) return;
-        recordItems[idx].PlayNoticeAnimation();
-    }
-    public void RefreshRecordStatus(int idx,RecordStatus status)
-    {
-        if (idx >= recordItems.Length || idx < 0) return;
-        recordItems[idx].Refresh(status);
+        recordItems[idx].Refresh(status,progress);
     }
     
 }

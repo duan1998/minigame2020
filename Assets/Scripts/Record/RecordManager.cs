@@ -52,10 +52,15 @@ public class RecordManager : MonoBehaviour
 
     [SerializeField] MainUI mainUI;
 
+    [Tooltip("录制的时长")]
+    public float recordDuration;//录制的时长
+    private float curRecordRemainingTime;
 
     private void Awake()
     {
         instance = this;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Start()
     {
@@ -66,8 +71,7 @@ public class RecordManager : MonoBehaviour
         willPlayRecordBuffer = new List<RecordModeItem>();
         canBackPlay = false;
         // 默认状态
-        status = new RecordStatus[maxSaveRecordCount];
-        mainUI.Set(status);
+        mainUI.Set(maxSaveRecordCount);
     }
 
     public bool StartRecording()
@@ -77,7 +81,8 @@ public class RecordManager : MonoBehaviour
             mainUI.Wrong(curSelectRecordIndex);
             return false;
         }
-        mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.Recording);
+        curRecordRemainingTime = recordDuration;
+        mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.Recording,0);
         curRecordingRecord = new BehaviorRecord();
         bRecording = true;
         return true;
@@ -85,7 +90,7 @@ public class RecordManager : MonoBehaviour
     public void StopRecording()
     {
         records[curSelectRecordIndex] = curRecordingRecord;
-        mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.Record);
+        mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.Record,1);
         bRecording = false;
         curRecordingRecord = null;
     }
@@ -109,9 +114,9 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
             // 播放缓冲里的第一个
             curPlayingBufferIndex = 0;
-            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
+            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal,0);
             bPlaying = true;
-            ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
+            ghost.SetBehaviourRecord(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex,records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack, OnPlayingEvent);
         }
         else
         {
@@ -120,12 +125,12 @@ public class RecordManager : MonoBehaviour
                 if (willPlayRecordBuffer[i].recordIndex == curSelectRecordIndex)
                 {
                     // 已经在播放缓冲里了，不能再播放
-                    mainUI.NoticePlayingOrHasWouldPlay(curSelectRecordIndex);
+                    mainUI.Wrong(curSelectRecordIndex);
                     return;
                 }
             }
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, false));
-            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal);
+            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingNormal,0);
         }
 
     }
@@ -147,9 +152,9 @@ public class RecordManager : MonoBehaviour
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, true));
             // 播放缓冲里的第一个
             curPlayingBufferIndex = 0;
-            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack);
+            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack,0);
             bPlaying = true;
-            ghost.SetBehaviourRecord(records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack);
+            ghost.SetBehaviourRecord(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex,records[willPlayRecordBuffer[0].recordIndex], PlayOver, willPlayRecordBuffer[0].bBack, OnPlayingEvent);
         }
         else
         {
@@ -158,12 +163,12 @@ public class RecordManager : MonoBehaviour
                 if (willPlayRecordBuffer[i].recordIndex == curSelectRecordIndex)
                 {
                     // 已经在播放缓冲里了，不能再播放
-                    mainUI.NoticePlayingOrHasWouldPlay(curSelectRecordIndex);
+                    mainUI.Wrong(curSelectRecordIndex);
                     return;
                 }
             }
             willPlayRecordBuffer.Add(new RecordModeItem(curSelectRecordIndex, true));
-            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack);
+            mainUI.RefreshRecordStatus(curSelectRecordIndex, RecordStatus.PlayingBack,0);
         }
 
 
@@ -172,7 +177,7 @@ public class RecordManager : MonoBehaviour
 
     public void PlayOver()
     {
-        mainUI.RefreshRecordStatus(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex, RecordStatus.Record);
+        mainUI.RefreshRecordStatus(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex, RecordStatus.Record,1);
         curPlayingBufferIndex++;
         if (curPlayingBufferIndex >= willPlayRecordBuffer.Count)
         {
@@ -185,9 +190,23 @@ public class RecordManager : MonoBehaviour
         else
         {
 
-            ghost.SetBehaviourRecord(records[willPlayRecordBuffer[curPlayingBufferIndex].recordIndex], PlayOver, willPlayRecordBuffer[curPlayingBufferIndex].bBack);
+            ghost.SetBehaviourRecord(willPlayRecordBuffer[curPlayingBufferIndex].recordIndex, records[willPlayRecordBuffer[curPlayingBufferIndex].recordIndex], PlayOver, willPlayRecordBuffer[curPlayingBufferIndex].bBack, OnPlayingEvent);
         }
     }
+
+    void OnPlayingEvent(int recordIndex,bool bBack,float progress)
+    {
+        if (bBack)
+        {
+            mainUI.RefreshRecordStatus(recordIndex, RecordStatus.PlayingBack, progress);
+        }
+        else
+        {
+            mainUI.RefreshRecordStatus(recordIndex, RecordStatus.PlayingNormal, progress);
+        }
+    }
+
+
 
 
     private void Update()
@@ -225,6 +244,24 @@ public class RecordManager : MonoBehaviour
             ghost.tag = "Untagged";
             // 预览
             PreviewGhostPosition(true);
+        }
+        // 录制
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            StartRecording();
+        }
+
+
+
+        if(bRecording)
+        {
+            curRecordRemainingTime -= Time.deltaTime;
+            mainUI.RefreshRecordStatus(curSelectRecordIndex,RecordStatus.Recording, (recordDuration - curRecordRemainingTime) / recordDuration);
+            if (curRecordRemainingTime<=0)
+            {
+                // 完成
+                StopRecording();
+            }
         }
 
     }
@@ -292,11 +329,10 @@ public class RecordManager : MonoBehaviour
         if (maxSaveRecordCount == 3)
             return;
         maxSaveRecordCount = 3;
+        // 清理
+        records = new BehaviorRecord[3];
         // 默认状态
-        RecordStatus firstStatus = status[0];
-        status = new RecordStatus[maxSaveRecordCount];
-        status[0] = firstStatus;
-        mainUI.Set(status);
+        mainUI.Set(maxSaveRecordCount);
     }
     public void CanCarryLevelUp()
     {

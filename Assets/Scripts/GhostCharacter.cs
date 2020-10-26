@@ -11,6 +11,7 @@ public class GhostCharacter : MonoBehaviour
 
     public Transform playerTrans;
     private UnityAction playOverAction;
+    private UnityAction<int,bool,float> perFrameAction;
 
     public BoxCollider frontTrigger;
 
@@ -25,6 +26,9 @@ public class GhostCharacter : MonoBehaviour
     [SerializeField] RuntimeAnimatorController backAnimatorController;
     [SerializeField] RuntimeAnimatorController normalAnimatorController;
 
+    float totalFrameNum;
+    int recordIndex;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -35,11 +39,13 @@ public class GhostCharacter : MonoBehaviour
         colliders = new Collider[20];
     }
 
-    public void SetBehaviourRecord(BehaviorRecord behaviourRecord,UnityAction action,bool bBack)
+    public void SetBehaviourRecord(int recordIndex,BehaviorRecord behaviourRecord,UnityAction action,bool bBack,UnityAction<int,bool,float> perFrameAction=null)
     {
+        this.recordIndex = recordIndex;
         this.behaviourRecord = behaviourRecord;
         this.bPlayingRecord = true;
-        playOverAction = action;
+        this.playOverAction = action;
+        this.perFrameAction = perFrameAction;
         this.bBack = bBack;
         if (bBack)
             frameIdx = behaviourRecord.FrameCount - 1;
@@ -57,7 +63,9 @@ public class GhostCharacter : MonoBehaviour
                 animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = normalAnimatorController;
         }
- 
+        totalFrameNum = behaviourRecord.FrameCount;
+
+
     }
 
 
@@ -126,6 +134,10 @@ public class GhostCharacter : MonoBehaviour
             if(bBack)
             {
                 frameIdx--;
+                if (perFrameAction != null)
+                {
+                    perFrameAction(recordIndex,true,(totalFrameNum - frameIdx + 1) / totalFrameNum);
+                }
                 if (frameIdx < 0)
                 {
                     bPlayingRecord = false;
@@ -137,6 +149,10 @@ public class GhostCharacter : MonoBehaviour
             else
             {
                 frameIdx++;
+                if (perFrameAction != null)
+                {
+                    perFrameAction(recordIndex,false,(frameIdx +1)/ totalFrameNum);
+                }
                 if (frameIdx >= behaviourRecord.FrameCount)
                 {
                     bPlayingRecord = false;
@@ -145,6 +161,8 @@ public class GhostCharacter : MonoBehaviour
                     playOverAction();
                 }
             }
+
+
 
         }
     }
