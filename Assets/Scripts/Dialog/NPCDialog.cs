@@ -39,7 +39,7 @@ public class NPCDialog : MonoBehaviour
     public bool isPlayParagraph;
     public bool haveTip;
     public bool isNPC2;
-    public bool isFianl;
+    public bool isFinal;
     public bool isBoom;
     public bool needExchange;
 
@@ -56,6 +56,7 @@ public class NPCDialog : MonoBehaviour
     public GameObject Tip;
     public GameObject EndPanel;
     public GameObject FKeyText;
+    public AudioClip FinalClip;
     // Start is called before the first frame update
     void Start()
     {
@@ -95,6 +96,11 @@ public class NPCDialog : MonoBehaviour
     }
     public void DialogStart() {//开始播放
         Time.timeScale = 0f;
+        if (isFinal) {
+            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().clip = FinalClip;
+            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().Play();
+            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().volume = 0.9f;
+        }
         PanelPlayerA.sprite = playerAImage;
         PanelPlayerB.sprite = playerBImage;
         dialogPanel.SetActive(true);
@@ -127,7 +133,7 @@ public class NPCDialog : MonoBehaviour
                 return;
             }
         }
-        if (isFianl&&isChosen&& textIndex == 3) {
+        if (isFinal&&isChosen&& textIndex == 3) {
             playerAName = "\"你\"";
             playerBName = "\"伊恩\"";
         }
@@ -177,12 +183,15 @@ public class NPCDialog : MonoBehaviour
                 Tip.GetComponent<TipController>().PlayText(tipText);
                 if (isNPC2) haveTip = false;
             }
-            if (isFianl) {
+            if (isFinal) {
                 EndPanel.SetActive(true);
-                GameObject.Find("Canvas").transform.Find("MainUI").gameObject.SetActive(false);
-                GameObject.Find("Canvas").transform.Find("WhitePanel").gameObject.SetActive(false);
-                GameObject.Find("Canvas").transform.Find("BackgroundImage").gameObject.SetActive(false);
-                
+                GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().Stop();
+                DOTween.To(() => value, x => value = x, 5, 0.5f).SetUpdate(true).OnComplete(()=> {
+                    GameObject.Find("Canvas").transform.Find("MainUI").gameObject.SetActive(false);
+                    GameObject.Find("Canvas").transform.Find("WhitePanel").gameObject.SetActive(false);
+                    GameObject.Find("Canvas").transform.Find("BackgroundImage").gameObject.SetActive(false);
+                });
+
             }
         });
     }
@@ -207,7 +216,7 @@ public class NPCDialog : MonoBehaviour
         OptionB.gameObject.SetActive(false);
         isChosen = true;
         textIndex = 0;
-        if (isFianl) {
+        if (isFinal) {
             GameObject.Find("FinalTrigger").GetComponent<FinishLevel>().ChangeCG();
             dialogPanel.GetComponent<Image>().DOFade(0, 0.1f).SetUpdate(true);
             PanelPlayerA.gameObject.SetActive(false);
