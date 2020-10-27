@@ -56,7 +56,7 @@ public class NPCDialog : MonoBehaviour
     public GameObject Tip;
     public GameObject EndPanel;
     public GameObject FKeyText;
-    public AudioClip FinalClip;
+    public AudioClip clip;
     // Start is called before the first frame update
     void Start()
     {
@@ -97,9 +97,14 @@ public class NPCDialog : MonoBehaviour
     public void DialogStart() {//开始播放
         Time.timeScale = 0f;
         if (isFinal) {
-            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().clip = FinalClip;
+            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().clip = clip;
             GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().Play();
-            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().volume = 0.9f;
+            GameObject.Find("MainCamera").transform.Find("BGM").GetComponent<AudioSource>().volume = 1f;
+        }
+        else {
+            GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().clip = clip;
+            GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().Play();
+            GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().volume = 0.7f;
         }
         PanelPlayerA.sprite = playerAImage;
         PanelPlayerB.sprite = playerBImage;

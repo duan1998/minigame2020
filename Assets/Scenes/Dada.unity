@@ -5265,7 +5265,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 623591099}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0e2b337cac8f7294b94fc970ffd29535, type: 3}
 --- !u!65 &26624349
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5745,7 +5745,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!65 &99982829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6172,7 +6172,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156597433}
-  m_LocalRotation: {x: 0.012148606, y: 0.63361436, z: -0.009951691, w: 0.7734897}
+  m_LocalRotation: {x: 0.012148606, y: 0.6336144, z: -0.009951693, w: 0.77348965}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7208,7 +7208,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 623591099}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0e2b337cac8f7294b94fc970ffd29535, type: 3}
 --- !u!65 &280181326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8004,7 +8004,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0e2b337cac8f7294b94fc970ffd29535, type: 3}
 --- !u!65 &355756124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15703,7 +15703,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0e2b337cac8f7294b94fc970ffd29535, type: 3}
 --- !u!65 &552899637
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15858,7 +15858,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -28001,7 +28001,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0e2b337cac8f7294b94fc970ffd29535, type: 3}
 --- !u!65 &915873584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28283,7 +28283,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.0059909974, y: 0.63353986, z: -0.004905873, w: 0.7736714}
+  m_LocalRotation: {x: 0.005990996, y: 0.63353986, z: -0.004905872, w: 0.7736714}
   m_LocalPosition: {x: 19.774664, y: 1.4215132, z: -18.241001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -31520,7 +31520,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -33602,7 +33602,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431603757}
-  m_LocalRotation: {x: -0.021142501, y: 0.6334558, z: 0.017319163, w: 0.7732961}
+  m_LocalRotation: {x: -0.021142498, y: 0.6334558, z: 0.017319158, w: 0.7732961}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -33981,7 +33981,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 0}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!65 &1477300710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42319,7 +42319,7 @@ MonoBehaviour:
   Tip: {fileID: 707574142}
   EndPanel: {fileID: 776833781}
   FKeyText: {fileID: 0}
-  FinalClip: {fileID: 8300000, guid: d6dade25e851341479ee8ac033bb6323, type: 3}
+  clip: {fileID: 8300000, guid: 0a7a7f9a33539384f93f75407bccfe0a, type: 3}
 --- !u!65 &1840801343
 BoxCollider:
   m_ObjectHideFlags: 0
