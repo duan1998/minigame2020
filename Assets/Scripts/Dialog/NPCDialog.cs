@@ -54,6 +54,8 @@ public class NPCDialog : MonoBehaviour
     public Button OptionA;
     public Button OptionB;
     public GameObject Tip;
+    public GameObject EndPanel;
+    public GameObject FKeyText;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +71,7 @@ public class NPCDialog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.F))
             if (isInRange) DialogStart();
         if (Input.GetMouseButtonDown(0)) {
             if (isFinish) return;
@@ -79,12 +81,14 @@ public class NPCDialog : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
+            FKeyText.SetActive(true);
             isInRange = true;
             Debug.Log("PlayerIn!");
         }
     }
     private void OnTriggerExit(Collider other) {
         if (other.tag == "Player") {
+            FKeyText.SetActive(false);
             isInRange = false;
             Debug.Log("PlayerOut!");
         }
@@ -122,6 +126,10 @@ public class NPCDialog : MonoBehaviour
                 Cursor.visible = true;
                 return;
             }
+        }
+        if (isFianl&&isChosen&& textIndex == 3) {
+            playerAName = "\"你\"";
+            playerBName = "\"伊恩\"";
         }
         isPlayParagraph = true;
         dialogText.text = "";
@@ -167,6 +175,14 @@ public class NPCDialog : MonoBehaviour
             if (haveTip) {
                 Tip.SetActive(true);
                 Tip.GetComponent<TipController>().PlayText(tipText);
+                if (isNPC2) haveTip = false;
+            }
+            if (isFianl) {
+                EndPanel.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("MainUI").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.Find("WhitePanel").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.Find("BackgroundImage").gameObject.SetActive(false);
+                
             }
         });
     }

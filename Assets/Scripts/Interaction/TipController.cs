@@ -19,7 +19,7 @@ public class TipController : MonoBehaviour
     public void PlayText(string text) {
         this.GetComponent<Text>().text = text;
         this.GetComponent<Text>().DOFade(1, 0.1f).OnComplete(() => {
-            this.GetComponent<Text>().DOFade(0, 4f).OnComplete(()=> { this.gameObject.SetActive(false); });
+            this.GetComponent<Text>().DOFade(0, 6f).OnComplete(()=> { this.gameObject.SetActive(false); });
         });
     }
 }
