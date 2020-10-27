@@ -21,8 +21,9 @@ public class PlayTips : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player" || other.tag == "Shadow" || other.tag == "Box") {
-            if (isBox)
+            if (isBox) {
                 if (other.tag != "Box") return;
+            }
             if (isTouch) return;
             TextPanel.SetActive(true);
             TextPanel.GetComponent<TipController>().PlayText(tipText);
