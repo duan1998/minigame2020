@@ -26,6 +26,7 @@ public class ChargeTrain : MonoBehaviour
         }
     }
     private void OnTriggerExit(Collider other) {
+        /*
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Shadow" || other.gameObject.tag == "Box") {
             numsOfCharactor--;
             if (numsOfCharactor == 0) {
@@ -33,5 +34,6 @@ public class ChargeTrain : MonoBehaviour
                 GameObject.Find("ThirdPersonController").GetComponent<ThirdPersonUserControl>().CanTrainMove = false;
             }
         }
+        */
     }
 }

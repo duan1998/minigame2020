@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Dada.unity
+    guid: 44e92c186cb0a5c4fb82f9464a477528
   m_configObjects: {}

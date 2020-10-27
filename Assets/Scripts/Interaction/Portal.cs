@@ -7,6 +7,8 @@ public class Portal : MonoBehaviour
     public float SearchRadius=1.15f;
     public bool PlayerOnCube;
     public List<GameObject> PortalList;
+    public GameObject lightA;
+    public GameObject lightB;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +20,10 @@ public class Portal : MonoBehaviour
     {
         if (PlayerOnCube) {
             if (SearchPlayer(transform,SearchRadius)==null) {
-                transform.parent.DOScaleY(1f, 0.1f);
+                //transform.parent.DOScaleY(1f, 0.1f);
                 PlayerOnCube = false;
+                lightA.SetActive(true);
+                lightB.SetActive(false);
                 return;
             }
             TryToExChange();
@@ -52,7 +56,9 @@ public class Portal : MonoBehaviour
                     float value = 1;
                     DOTween.To(() => value, x => value = x, 5, 0.5f).OnComplete(() => {
                         ShadowPortal.GetComponent<Portal>().PlayerOnCube = false;
-                        ShadowPortal.transform.parent.DOScaleY(1f, 0.1f);
+                        //ShadowPortal.transform.parent.DOScaleY(1f, 0.1f);
+                        ShadowPortal.GetComponent<Portal>().lightA.SetActive(true);
+                        ShadowPortal.GetComponent<Portal>().lightB.SetActive(false);
                         Transform temp = playerA.transform;
                         playerA.transform.DOMove(playerB.transform.position, 0.1f);
                         //playerB.transform.DOMove(temp.position,0.1f);
@@ -65,8 +71,12 @@ public class Portal : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player" || other.tag == "Shadow") {
+            //if (!GameObject.Find("ThirdPersonController").GetComponent<ThirdPersonUserControl>().CanExChange) return;
             PlayerOnCube = true;
-            transform.parent.DOScaleY(0.5f, 0.1f);
+            lightA.SetActive(false);
+            lightB.SetActive(true);
+            
+            //transform.parent.DOScaleY(0.5f, 0.1f);
         }
     }
 }

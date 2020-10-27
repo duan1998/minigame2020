@@ -10,6 +10,7 @@ public class AbilityGet : MonoBehaviour
     public int AbilityType = 1;
     public GameObject Dialog;
     public GameObject WhitePanel;
+    public GameObject moveCamera;
     public bool isLock = false;
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class AbilityGet : MonoBehaviour
         if (AbilityType == 0) {
             GameObject.Find("RecordManager").GetComponent<RecordManager>().RecordCountLevelUp();
             Dialog.GetComponent<NPCDialog>().DialogStart();
+            moveCamera.SetActive(true);
         }
         else
     if (AbilityType == 1) {
@@ -54,6 +56,7 @@ public class AbilityGet : MonoBehaviour
     if (AbilityType == 3) {
             GameObject.Find("ThirdPersonController").GetComponent<ThirdPersonUserControl>().CanExChange = true;
             Dialog.GetComponent<NPCDialog>().DialogStart();
+            moveCamera.SetActive(true);
         }
 
     }
