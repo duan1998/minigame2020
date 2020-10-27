@@ -8,8 +8,11 @@ public class LadderButton : MonoBehaviour
     public float m_moveTime = 2f;
     public float m_rotationZ = 0f;
     public bool IsTemporary = false;
+    public bool isTouch = false;
     public int numsOfCharactor;
     private float m_initialRotationZ;
+    public AudioClip ButtonClip;
+    public AudioClip GearClip;
     // Start is called before the first frame update
     private void Awake() {
         numsOfCharactor = 0;
@@ -33,6 +36,20 @@ public class LadderButton : MonoBehaviour
             if (!IsTemporary&&ladder.GetComponent<BridgeStatues>() != null && !ladder.GetComponent<BridgeStatues>().isLock)
                 ladder.GetComponent<BridgeStatues>().isLock = true;
             ladder.transform.DORotate(new Vector3(ladder.transform.rotation.x, ladder.transform.rotation.y, m_rotationZ), m_moveTime);
+            GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().clip = ButtonClip;
+            GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().Play();
+            if (!IsTemporary && !isTouch) {
+                GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().clip = GearClip;
+                GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().Play();
+                isTouch = true;
+            }
+            if (IsTemporary) {
+                if (ladder.GetComponent<BridgeStatues>().isLock == false) {
+                    GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().clip = GearClip;
+                    GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().Play();
+                }
+
+            }
         }
     }
     private void OnTriggerExit(Collider other) {

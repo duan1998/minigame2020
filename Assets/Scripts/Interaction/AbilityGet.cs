@@ -30,7 +30,7 @@ public class AbilityGet : MonoBehaviour
             WhitePanel.GetComponent<Image>().DOFade(1, 1f).OnComplete(()=> {
                 gameObject.SetActive(false);
                 WhitePanel.GetComponent<Image>().DOFade(0, 1f).OnComplete(Ability);
-                }
+            }
             );
 
         }

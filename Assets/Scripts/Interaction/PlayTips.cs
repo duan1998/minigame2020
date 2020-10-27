@@ -8,6 +8,7 @@ public class PlayTips : MonoBehaviour
     public GameObject TextPanel;
     public string tipText;
     public bool isTouch;
+    public AudioClip clip;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,8 @@ public class PlayTips : MonoBehaviour
         if (other.tag == "Player" || other.tag == "Shadow" || other.tag == "Box") {
             if (isBox) {
                 if (other.tag != "Box") return;
+                GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().clip = clip;
+                GameObject.Find("MainCamera").transform.Find("Effect2").GetComponent<AudioSource>().Play();
             }
             if (isTouch) return;
             TextPanel.SetActive(true);

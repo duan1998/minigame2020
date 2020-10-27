@@ -14,6 +14,7 @@ public class BothButton : MonoBehaviour
     public bool AlreadyPress;
     public GameObject otherButton;
     public GameObject AbilityLock;
+    public AudioClip clip;
     // Start is called before the first frame update
     void Start() {
         numsOfCharactor = 0;
@@ -50,6 +51,9 @@ public class BothButton : MonoBehaviour
                     else {
                         npc.paragraphList = DialogAB.GetComponent<NPCDialog>().BSideParagraph;
                     }
+
+                    GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().clip = clip;
+                    GameObject.Find("MainCamera").transform.Find("Effect1").GetComponent<AudioSource>().Play();
                 });
                 
             }
